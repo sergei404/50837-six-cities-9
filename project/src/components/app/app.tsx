@@ -5,6 +5,7 @@ import Favorites from '../favorites/Favorites';
 import Property from '../property/Property';
 import NotFound from '../not_found/NotFound';
 import PrivateRoute from '../private_route/PrivateRoute';
+import Layout from '../layout/Layout';
 
 type AppProps = {
   cityList: Array<string>;
@@ -14,17 +15,19 @@ function App({ cityList }: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Main cityList={cityList} />} />
-        <Route path="/login" element={<SingIn />} />
-        <Route path="/favorites" element={
-          <PrivateRoute>
-            <Favorites />
-          </PrivateRoute>
-        }
-        />
-        <Route path="/offer/:id" element={<Property />} >
-          <Route path=":id" element={<Property />} />
+        <Route path="/" element={<Layout />}>
+          <Route path="/" element={<Main cityList={cityList} />} />
+          <Route path="/favorites" element={
+            <PrivateRoute>
+              <Favorites />
+            </PrivateRoute>
+          }
+          />
+          <Route path="/offer" element={<Property />} >
+            <Route path=":id" element={<Property />} />
+          </Route>
         </Route>
+        <Route path="/login" element={<SingIn />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
