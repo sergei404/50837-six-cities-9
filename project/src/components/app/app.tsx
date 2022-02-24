@@ -16,18 +16,18 @@ function App({ cityList }: AppProps): JSX.Element {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="/" element={<Main cityList={cityList} />} />
-          <Route path="/favorites" element={
+          <Route index element={<Main cityList={cityList} />} />
+          <Route path="favorites" element={
             <PrivateRoute>
               <Favorites />
             </PrivateRoute>
           }
           />
-          <Route path="/offer" element={<Property />} >
+          <Route path="offer" element={<Property />} >
             <Route path=":id" element={<Property />} />
           </Route>
         </Route>
-        <Route path="/login" element={<SingIn />} />
+        <Route path="login" element={<SingIn />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
