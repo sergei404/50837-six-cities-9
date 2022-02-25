@@ -1,11 +1,11 @@
 /* eslint-disable react/no-array-index-key */
 import City from '../city/City';
 
-type Cities = {
+type MainProps = {
   cityList: Array<string>;
 }
 
-function Main({cityList}: Cities): JSX.Element {
+function Main({cityList}: MainProps): JSX.Element {
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
