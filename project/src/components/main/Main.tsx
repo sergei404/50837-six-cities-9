@@ -1,5 +1,4 @@
 /* eslint-disable react/no-array-index-key */
-//import { useState } from 'react';
 import City from '../city/city';
 import OfferList from '../offer-list/offer-list';
 import {offerType} from '../../types/offerType';
@@ -12,12 +11,15 @@ type MainProps = {
 
 function Main({cityList, offerList}: MainProps): JSX.Element {
 
-  const [offerActive, setOfferActive] = useState(0);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [offerActive, setOfferActive] = useState<number | null>(null);
 
   const setId = (id: number) => {
     setOfferActive(id);
-    // eslint-disable-next-line no-console
-    console.log(offerActive);
+  };
+
+  const setNull = () => {
+    setOfferActive(null);
   };
 
   return (
@@ -50,7 +52,7 @@ function Main({cityList, offerList}: MainProps): JSX.Element {
                 <li className="places__option" tabIndex={0}>Top rated first</li>
               </ul>
             </form>
-            <OfferList setId={setId} offerList={offerList}/>
+            <OfferList setNull={setNull} setId={setId} offerList={offerList}/>
           </section>
           <div className="cities__right-section">
             <section className="cities__map map"></section>

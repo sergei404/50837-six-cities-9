@@ -3,7 +3,7 @@ import Main from '../main/main';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SingIn from '../sing_in/sing-in';
 import Favorites from '../favorites/favorites';
-import Property from '../property/property';
+import Property from '../room/room';
 import NotFound from '../not_found/not-found';
 import PrivateRoute from '../private_route/private-route';
 import Layout from '../layout/layout';
@@ -23,7 +23,7 @@ function App(props: AppProps): JSX.Element {
           <Route index element={<Main {...props} />} />
           <Route path="favorites" element={
             <PrivateRoute>
-              <Favorites />
+              <Favorites offerList={props.offerList}/>
             </PrivateRoute>
           }
           />
