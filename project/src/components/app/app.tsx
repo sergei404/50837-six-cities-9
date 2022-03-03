@@ -1,22 +1,26 @@
-import Main from '../main/Main';
+/* eslint-disable react/no-unused-prop-types */
+import Main from '../main/main';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import SingIn from '../sing_in/SingIn';
-import Favorites from '../favorites/Favorites';
-import Property from '../property/Property';
-import NotFound from '../not_found/NotFound';
-import PrivateRoute from '../private_route/PrivateRoute';
-import Layout from '../layout/Layout';
+import SingIn from '../sing_in/sing-in';
+import Favorites from '../favorites/favorites';
+import Property from '../property/property';
+import NotFound from '../not_found/not-found';
+import PrivateRoute from '../private_route/private-route';
+import Layout from '../layout/layout';
+import {offerType} from '../../types/offerType';
 
 type AppProps = {
-  cityList: Array<string>;
+  cityList: string[];
+  offerList: offerType[]
 };
 
-function App({ cityList }: AppProps): JSX.Element {
+function App(props: AppProps): JSX.Element {
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Main cityList={cityList} />} />
+          <Route index element={<Main {...props} />} />
           <Route path="favorites" element={
             <PrivateRoute>
               <Favorites />
