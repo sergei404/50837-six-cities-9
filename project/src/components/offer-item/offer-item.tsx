@@ -1,11 +1,17 @@
 import { offerType } from '../../types/offerType';
 
 type OfferItemProps = {
+  setId:  (id: number) => void
   offer: offerType
 };
 
-function OfferItem({ offer }: OfferItemProps): JSX.Element {
+function OfferItem({setId, offer}: OfferItemProps): JSX.Element {
   const {id, rank, gallery, title, price, bookmark, rating, features: {category}} = offer;
+
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  function setMouseEnterId(id: number): void {
+    setId(id);
+  }
 
   const isRank = rank ?
     (
@@ -16,7 +22,7 @@ function OfferItem({ offer }: OfferItemProps): JSX.Element {
     null;
 
   return (
-    <article className="cities__place-card place-card">
+    <article onMouseEnter={() => setMouseEnterId(id)} className="cities__place-card place-card">
       { isRank }
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#s">

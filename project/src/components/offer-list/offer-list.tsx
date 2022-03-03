@@ -3,11 +3,15 @@ import {offerType} from '../../types/offerType';
 import OfferItem from '../offer-item/offer-item';
 
 type OfferListProps = {
+  setId:  (id: number) => void
   offerList: offerType[]
 };
 
-function OfferList({offerList}: OfferListProps): JSX.Element {
-  const offers = offerList.map((item) => <OfferItem key={item.id} offer={item}/>);
+function OfferList(props: OfferListProps): JSX.Element {
+  // eslint-disable-next-line no-console
+  console.log(props);
+
+  const offers = props.offerList.map((item) => <OfferItem key={item.id} offer={item} setId={props.setId}/>);
 
   return (
     <div className="cities__places-list places__list tabs__content">

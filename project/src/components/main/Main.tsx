@@ -1,7 +1,9 @@
 /* eslint-disable react/no-array-index-key */
+//import { useState } from 'react';
 import City from '../city/city';
 import OfferList from '../offer-list/offer-list';
 import {offerType} from '../../types/offerType';
+import { useState } from 'react';
 
 type MainProps = {
   cityList: string[];
@@ -9,6 +11,15 @@ type MainProps = {
 };
 
 function Main({cityList, offerList}: MainProps): JSX.Element {
+
+  const [offerActive, setOfferActive] = useState(0);
+
+  const setId = (id: number) => {
+    setOfferActive(id);
+    // eslint-disable-next-line no-console
+    console.log(offerActive);
+  };
+
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
@@ -39,7 +50,7 @@ function Main({cityList, offerList}: MainProps): JSX.Element {
                 <li className="places__option" tabIndex={0}>Top rated first</li>
               </ul>
             </form>
-            <OfferList offerList={offerList}/>
+            <OfferList setId={setId} offerList={offerList}/>
           </section>
           <div className="cities__right-section">
             <section className="cities__map map"></section>
