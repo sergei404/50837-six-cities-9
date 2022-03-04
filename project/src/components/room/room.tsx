@@ -1,4 +1,6 @@
-function Property(): JSX.Element {
+import FeedbackForm from '../feedback_form/feedback-form';
+
+function Room(): JSX.Element {
   return (
     <main className="page__main page__main--property">
       <section className="property">
@@ -42,7 +44,7 @@ function Property(): JSX.Element {
             </div>
             <div className="property__rating rating">
               <div className="property__stars rating__stars">
-                <span style={{width: '80%'}}></span>
+                <span style={{width: '800%'}}></span>
                 <span className="visually-hidden">Rating</span>
               </div>
               <span className="property__rating-value rating__value">4.8</span>
@@ -145,6 +147,7 @@ function Property(): JSX.Element {
                   </div>
                 </li>
               </ul>
+              <FeedbackForm/>
             </section>
           </div>
         </div>
@@ -259,4 +262,4 @@ function Property(): JSX.Element {
   );
 }
 
-export default Property;
+export default Room;

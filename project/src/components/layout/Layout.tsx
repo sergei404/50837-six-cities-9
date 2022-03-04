@@ -1,6 +1,8 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 function Layout(): JSX.Element {
+  const {pathname} = useLocation();
+  const isShowFooter = pathname === '/favorites';
 
   return (
     <>
@@ -32,11 +34,13 @@ function Layout(): JSX.Element {
         </div>
       </header>
       <Outlet/>
-      <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
-          <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"/>
-        </a>
-      </footer>
+      {isShowFooter ?
+        <footer className="footer container">
+          <a className="footer__logo-link" href="main.html">
+            <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"/>
+          </a>
+        </footer> :
+        null}
     </>
   );
 }

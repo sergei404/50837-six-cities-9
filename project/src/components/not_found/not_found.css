@@ -1,14 +1,13 @@
 .content-not-faund {
+  margin-top: 15%;
   display: flex;
   flex-wrap: wrap;
   background-color: #f8f0f0;
-  /* height: 100vh; */
 }
 .trip-events__msg {
   width: 100%;
   font-weight: 500;
   font-size: 44px;
-  /* line-height: 60px; */
   color: #eee5e5;
   opacity: 0.89; 
   text-align: center;
