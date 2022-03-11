@@ -1,11 +1,16 @@
-import {offerType} from '../types/offerType';
+import { offerType} from '../types/offerType';
 
 function getRandomNumber(min: number, max: number) {
   return min + Math.floor(Math.random() * (max + 1 - min));
 }
 
+const coordinates: number[][] = [
+  [52.3909553943508, 4.85309666406198],
+  [52.369553943508, 4.85309666406198],
+  [52.3909553943508, 4.929309666406198],
+  [52.3809553943508, 4.939309666406198],
+];
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const offer: offerType = {
   id: 0,
   gallery: [
@@ -49,6 +54,7 @@ const offer: offerType = {
     },
   ],
   bookmark: false,
+  coordinates,
 };
 
 export const offers: offerType[] = new Array(5)

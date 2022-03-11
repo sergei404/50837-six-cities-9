@@ -2,21 +2,24 @@ import { Link } from 'react-router-dom';
 import { offerType } from '../../types/offerType';
 
 type OfferItemProps = {
-  setNull: () => void
-  setId:  (id: number) => void
+  setOfferActive?:  (id: number | null) => void
   offer: offerType
 };
 
-function OfferItem({setNull, setId, offer}: OfferItemProps): JSX.Element {
+function OfferItem({setOfferActive, offer}: OfferItemProps): JSX.Element {
   const {id, rank, gallery, title, price, bookmark, rating, features: {category}} = offer;
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  function setMouseEnterId(id: number): void {
-    setId(id);
+
+  function setMouseEnterId(): void {
+    if (setOfferActive) {
+      setOfferActive(id);
+    }
   }
 
   function setMouseOver(): void {
-    setNull();
+    if (setOfferActive) {
+      setOfferActive(null);
+    }
   }
 
   const isRank = rank ?
@@ -28,8 +31,8 @@ function OfferItem({setNull, setId, offer}: OfferItemProps): JSX.Element {
     null;
 
   return (
-    <article onMouseOver={setMouseOver}
-      onMouseEnter={() => setMouseEnterId(id)} className="cities__place-card place-card"
+    <article onMouseLeave={setMouseOver}
+      onMouseEnter={setMouseEnterId} className="cities__place-card place-card"
     >
       { isRank }
       <div className="cities__image-wrapper place-card__image-wrapper">
@@ -64,7 +67,7 @@ function OfferItem({setNull, setId, offer}: OfferItemProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`offer/${id}`}>{title[id]}</Link>
+          <Link to={`/offer/${id}`}>{title[id]}</Link>
         </h2>
         <p className="place-card__type">{category}</p>
       </div>

@@ -30,4 +30,5 @@ export type offerType = {
   host: Host;
   reviews: ReviewsOffer[];
   bookmark: boolean;
+  coordinates: number[][]
 };
