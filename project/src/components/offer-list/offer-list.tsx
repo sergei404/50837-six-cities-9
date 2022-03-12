@@ -5,6 +5,7 @@ import OfferItem from '../offer-item/offer-item';
 type OfferListProps = {
   setOfferActive?:  (id: number | null) => void
   offerList: offerType[]
+  isRoom?: boolean
 };
 
 function OfferList(props: OfferListProps): JSX.Element {
@@ -12,7 +13,7 @@ function OfferList(props: OfferListProps): JSX.Element {
   const offers = props.offerList.map((item) => <OfferItem key={item.id} offer={item} setOfferActive={props.setOfferActive}/>);
 
   return (
-    <div className="cities__places-list places__list tabs__content">
+    <div className={props.isRoom ? 'near-places__list places__list' : 'cities__places-list places__list tabs__content'}>
       {offers}
       {/* <article className="cities__place-card place-card">
         <div className="place-card__mark">

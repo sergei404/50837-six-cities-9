@@ -16,7 +16,7 @@ function useMap(mapRef, city) {
 
       leaflet
         .tileLayer(
-          'https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}{r}.png',
+          'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
           {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
           },

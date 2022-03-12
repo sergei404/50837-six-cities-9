@@ -8,6 +8,7 @@ type MapProps = {
 };
 
 function Map({coordinates}: MapProps): JSX.Element {
+
   const mapRef = useRef(null);
   const map = useMap(mapRef, coordinates[0]);
 
@@ -43,7 +44,7 @@ function Map({coordinates}: MapProps): JSX.Element {
   }, [map, coordinates, defaultCustomIcon]);
 
   return (
-    <section ref={mapRef} className="cities__map map"></section>
+    <section style={{height: '100vh'}} ref={mapRef} className="cities__map map"></section>
   );
 }
 
