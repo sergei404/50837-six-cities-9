@@ -3,14 +3,13 @@ import {offerType} from '../../types/offerType';
 import OfferItem from '../offer-item/offer-item';
 
 type OfferListProps = {
-  setNull: () => void
-  setId:  (id: number) => void
+  setOfferActive?:  (id: number | null) => void
   offerList: offerType[]
 };
 
 function OfferList(props: OfferListProps): JSX.Element {
 
-  const offers = props.offerList.map((item) => <OfferItem key={item.id} offer={item} setId={props.setId} setNull={props.setNull}/>);
+  const offers = props.offerList.map((item) => <OfferItem key={item.id} offer={item} setOfferActive={props.setOfferActive}/>);
 
   return (
     <div className="cities__places-list places__list tabs__content">

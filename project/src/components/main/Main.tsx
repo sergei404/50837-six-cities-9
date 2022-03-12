@@ -3,6 +3,7 @@ import City from '../city/city';
 import OfferList from '../offer-list/offer-list';
 import {offerType} from '../../types/offerType';
 import { useState } from 'react';
+import Map  from '../map/map';
 
 type MainProps = {
   cityList: string[];
@@ -14,13 +15,13 @@ function Main({cityList, offerList}: MainProps): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [offerActive, setOfferActive] = useState<number | null>(null);
 
-  const setId = (id: number) => {
-    setOfferActive(id);
-  };
+  // const setId = (id: number) => {
+  //   setOfferActive(id);
+  // };
 
-  const setNull = () => {
-    setOfferActive(null);
-  };
+  // const setNull = () => {
+  //   setOfferActive(null);
+  // };
 
   return (
     <main className="page__main page__main--index">
@@ -52,10 +53,12 @@ function Main({cityList, offerList}: MainProps): JSX.Element {
                 <li className="places__option" tabIndex={0}>Top rated first</li>
               </ul>
             </form>
-            <OfferList setNull={setNull} setId={setId} offerList={offerList}/>
+            {/* <OfferList setNull={setNull} setId={setId} offerList={offerList}/> */}
+            <OfferList setOfferActive={setOfferActive} offerList={offerList}/>
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map"></section>
+            {/* <section className="cities__map map"></section> */}
+            <Map coordinates={[...offerList[0].coordinates]} />
           </div>
         </div>
       </div>

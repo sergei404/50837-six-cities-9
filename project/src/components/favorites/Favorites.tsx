@@ -1,4 +1,4 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import {offerType} from '../../types/offerType';
 import OfferList from '../offer-list/offer-list';
 
@@ -10,22 +10,23 @@ function Favorites({offerList}: FavoritesProps): JSX.Element {
   const offers = offerList.filter((item) => item.bookmark);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [offerActive, setOfferActive] = useState<number | null>(null);
+  // const [offerActive, setOfferActive] = useState<number | null>(null);
 
-  const setId = (id: number) => {
-    setOfferActive(id);
-  };
+  // const setId = (id: number) => {
+  //   setOfferActive(id);
+  // };
 
-  const setNull = () => {
-    setOfferActive(null);
-  };
+  // const setNull = () => {
+  //   setOfferActive(null);
+  // };
 
   return (
     <main className="page__main page__main--favorites">
       <div className="page__favorites-container container">
         <section className="favorites">
           <h1 className="favorites__title">Saved listing</h1>
-          <OfferList setNull={setNull} setId={setId} offerList={offers}/>
+          <OfferList offerList={offers}/>
+          {/* <OfferList setNull={setNull} setId={setId} offerList={offers}/> */}
           {/* <ul className="favorites__list">
             <li className="favorites__locations-items">
               <div className="favorites__locations locations locations--current">
