@@ -1,4 +1,4 @@
-import { offerType} from '../types/offerType';
+import {offerType} from '../types/offerType';
 
 function getRandomNumber(min: number, max: number) {
   return min + Math.floor(Math.random() * (max + 1 - min));
@@ -47,10 +47,20 @@ const offer: offerType = {
   },
   reviews: [
     {
+      id: 22,
       name: 'Max',
       avatar: 'img/avatar-max.jpg',
       description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
       date: 'April 2019',
+      grade: getRandomNumber(50, 100),
+    },
+    {
+      id: 224,
+      name: 'Andrei',
+      avatar: 'img/avatar-max.jpg',
+      description: 'An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.',
+      date: 'May 2020',
+      grade: getRandomNumber(50, 100),
     },
   ],
   bookmark: false,

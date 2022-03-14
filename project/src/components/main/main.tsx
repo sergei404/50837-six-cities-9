@@ -3,7 +3,7 @@ import City from '../city/city';
 import OfferList from '../offer-list/offer-list';
 import {offerType} from '../../types/offerType';
 import { useState } from 'react';
-import Map  from '../map/map';
+import Map from '../map/map';
 
 type MainProps = {
   cityList: string[];

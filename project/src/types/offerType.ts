@@ -1,9 +1,4 @@
-type ReviewsOffer = {
-  name: string;
-  avatar: string;
-  description: string;
-  date: string;
-};
+import {ReviewsOffer} from './reviewType';
 
 type Features = {
   category: string;
