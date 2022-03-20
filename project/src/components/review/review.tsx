@@ -1,8 +1,6 @@
 import {ReviewsOffer} from '../../types/reviewType';
 
 function Review(props: ReviewsOffer): JSX.Element {
-  // eslint-disable-next-line no-console
-  console.log(props);
 
   return (
     <li className="reviews__item">

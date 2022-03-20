@@ -1,27 +1,37 @@
 /* eslint-disable react/no-array-index-key */
+import { useSelector, useDispatch } from 'react-redux';
 import City from '../city/city';
 import OfferList from '../offer-list/offer-list';
-import {offerType} from '../../types/offerType';
 import { useState } from 'react';
 import Map from '../map/map';
+import {getCityAction} from '../../store/action';
+import { initialStateType } from '../../store/reducer';
 
-type MainProps = {
-  cityList: string[];
-  offerList: offerType[]
-};
+// type MainProps = {
+//   offerList: offerType[]
+// };
 
-function Main({cityList, offerList}: MainProps): JSX.Element {
+//function Main({offerList}: MainProps): JSX.Element {
+function Main(): JSX.Element {
+
+  const offersOfCity = useSelector((state: initialStateType) => state.offersOfCity);
+  const cities = useSelector((state: initialStateType) => state.cityList);
+
+  const coordinates = offersOfCity.map((offer) => offer.coordinate);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [offerActive, setOfferActive] = useState<number | null>(null);
+  const [activeCity, setCityActive] = useState<number>(0);
 
-  // const setId = (id: number) => {
-  //   setOfferActive(id);
-  // };
+  const dispatch = useDispatch();
 
-  // const setNull = () => {
-  //   setOfferActive(null);
-  // };
+  const getCityName = (name: string) => {
+    dispatch(getCityAction(name));
+  };
+
+  const getActive = (index: number) => {
+    setCityActive(index);
+  };
 
   return (
     <main className="page__main page__main--index">
@@ -29,7 +39,7 @@ function Main({cityList, offerList}: MainProps): JSX.Element {
       <div className="tabs">
         <section className="locations container">
           <ul className="locations__list tabs__list">
-            {cityList.map((city: string, index: number) => <City key={index} name={city} isActive={index === 0}/>)}
+            {cities.map((city: string, index: number) => <City key={index} getName={getCityName} name={city} index={index} getActive={getActive} isActive={index === activeCity}/>)}
           </ul>
         </section>
       </div>
@@ -37,7 +47,7 @@ function Main({cityList, offerList}: MainProps): JSX.Element {
         <div className="cities__places-container container">
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">312 places to stay in Amsterdam</b>
+            <b className="places__found">{offersOfCity.length} places to stay in {cities[activeCity]}</b>
             <form className="places__sorting" action="#" method="get">
               <span className="places__sorting-caption">Sort by</span>
               <span className="places__sorting-type" tabIndex={0}>
@@ -53,12 +63,10 @@ function Main({cityList, offerList}: MainProps): JSX.Element {
                 <li className="places__option" tabIndex={0}>Top rated first</li>
               </ul>
             </form>
-            {/* <OfferList setNull={setNull} setId={setId} offerList={offerList}/> */}
-            <OfferList setOfferActive={setOfferActive} offerList={offerList}/>
+            <OfferList setOfferActive={setOfferActive} offerList={offersOfCity}/>
           </section>
           <div className="cities__right-section">
-            {/* <section className="cities__map map"></section> */}
-            <Map coordinates={[...offerList[0].coordinates]} />
+            <Map coordinates={coordinates}/>
           </div>
         </div>
       </div>

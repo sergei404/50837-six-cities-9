@@ -7,7 +7,7 @@ type OfferItemProps = {
 };
 
 function OfferItem({setOfferActive, offer}: OfferItemProps): JSX.Element {
-  const {id, rank, gallery, title, price, bookmark, rating, features: {category}} = offer;
+  const {id, rank, offerPhoto, title, price, bookmark, rating, features: {category}} = offer;
 
 
   function setMouseEnterId(): void {
@@ -37,13 +37,13 @@ function OfferItem({setOfferActive, offer}: OfferItemProps): JSX.Element {
       { isRank }
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#s">
-          <img className="place-card__image" src={gallery[id]} width="260" height="200" alt={title[id]} />
+          <img className="place-card__image" src={offerPhoto} width="260" height="200" alt={title[id]} />
         </a>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;{price[id]}</b>
+            <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           {bookmark ?

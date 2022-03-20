@@ -4,6 +4,16 @@ function getRandomNumber(min: number, max: number) {
   return min + Math.floor(Math.random() * (max + 1 - min));
 }
 
+const gallery: string[] = [
+  'img/apartment-01.jpg',
+  'img/room.jpg',
+  'img/apartment-02.jpg',
+  'img/apartment-03.jpg',
+  'img/apartment-01.jpg',
+];
+
+export const cityList: string[] = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+
 const coordinates: number[][] = [
   [52.3909553943508, 4.85309666406198],
   [52.369553943508, 4.85309666406198],
@@ -13,13 +23,7 @@ const coordinates: number[][] = [
 
 const offer: offerType = {
   id: 0,
-  gallery: [
-    'img/apartment-01.jpg',
-    'img/room.jpg',
-    'img/apartment-02.jpg',
-    'img/apartment-03.jpg',
-    'img/apartment-01.jpg',
-  ],
+  offerPhoto: 'img/apartment-01.jpg',
   rank: false,
   title: ['Beautiful &amp; luxurious studio at great location', 'Wood and stone place', 'Canal View Prinsengracht', 'Nice, cozy, warm big bed apartment', 'Wood and stone place'],
   rating: 0,
@@ -28,7 +32,7 @@ const offer: offerType = {
     countRoom: 0,
     countAdults: 0,
   },
-  price: [120, 80, 132, 180, 80],
+  price: 120,
   inside: ['Wi-Fi',
     'Washing machine',
     'Towels',
@@ -64,12 +68,14 @@ const offer: offerType = {
     },
   ],
   bookmark: false,
-  coordinates,
+  coordinate: coordinates[0],
+  city: 'Paris',
 };
 
-export const offers: offerType[] = new Array(5)
+export const offers: offerType[] = new Array(15)
   .fill(offer).map((item, index): offerType => ({
     ...item,
+    offerPhoto: gallery[getRandomNumber(0, gallery.length - 1)],
     rating: getRandomNumber(50, 100),
     id: index,
     rank: Math.random() > 0.5,
@@ -80,4 +86,6 @@ export const offers: offerType[] = new Array(5)
       countRoom: getRandomNumber(1, 5),
       countAdults: getRandomNumber(1, 6),
     },
+    coordinate: coordinates[getRandomNumber(0, coordinates.length - 1)],
+    city: cityList[getRandomNumber(0, cityList.length - 1)],
   }));

@@ -15,15 +15,17 @@ type Host = {
 
 export type offerType = {
   id: number;
-  gallery: string[];
+  offerPhoto: string;
   rank: boolean;
   title: string[];
   rating: number;
   features: Features;
-  price: number[];
+  price: number;
   inside: string[];
   host: Host;
   reviews: ReviewsOffer[];
   bookmark: boolean;
-  coordinates: number[][]
+  coordinate: number[];
+  city: string
 };
+
