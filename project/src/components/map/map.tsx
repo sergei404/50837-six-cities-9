@@ -8,8 +8,9 @@ type MapProps = {
 };
 
 function Map({coordinates}: MapProps): JSX.Element {
+
   const mapRef = useRef(null);
-  const map = useMap(mapRef, [...coordinates]);
+  const map = useMap(mapRef, coordinates[0]);
 
   const URL_MARKER_DEFAULT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
 
@@ -29,14 +30,11 @@ function Map({coordinates}: MapProps): JSX.Element {
 
   useEffect(() => {
     if (map) {
-      coordinates.forEach((coordinate) => {
-        // eslint-disable-next-line no-console
-        console.log(coordinate);
-
+      coordinates.forEach(([lat, lng]) => {
         leaflet
           .marker({
-            lat: coordinate[0],
-            lng: coordinate[1],
+            lat,
+            lng,
           }, {
             icon: defaultCustomIcon,
           })

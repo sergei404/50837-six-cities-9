@@ -7,17 +7,12 @@ import Map from '../map/map';
 import {getCityAction} from '../../store/action';
 import { initialStateType } from '../../store/reducer';
 
-// type MainProps = {
-//   offerList: offerType[]
-// };
-
-//function Main({offerList}: MainProps): JSX.Element {
 function Main(): JSX.Element {
 
   const offersOfCity = useSelector((state: initialStateType) => state.offersOfCity);
   const cities = useSelector((state: initialStateType) => state.cityList);
 
-  const coordinates = offersOfCity.map((offer) => offer.coordinate);
+  const coordinates: number[][] = offersOfCity.map((offer) => offer.coordinate);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [offerActive, setOfferActive] = useState<number | null>(null);
