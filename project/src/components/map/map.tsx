@@ -30,11 +30,11 @@ function Map({coordinates}: MapProps): JSX.Element {
 
   useEffect(() => {
     if (map) {
-      coordinates.forEach((point) => {
+      coordinates.forEach(([lat, lng]) => {
         leaflet
           .marker({
-            lat: point[0],
-            lng: point[1],
+            lat,
+            lng,
           }, {
             icon: defaultCustomIcon,
           })

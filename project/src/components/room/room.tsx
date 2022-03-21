@@ -3,9 +3,8 @@ import ListReview from '../list-review/list-review';
 import { useParams } from 'react-router-dom';
 import { offerType } from '../../types/offerType';
 import Map from '../map/map';
-//import OfferList from '../offer-list/offer-list';
-import { useState } from 'react';
 import OfferList from '../offer-list/offer-list';
+import { useState } from 'react';
 
 type RoomProps = {
   offerList: offerType[]
@@ -14,19 +13,14 @@ type RoomProps = {
 function Room({ offerList }: RoomProps): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [offerActive, setOfferActive] = useState<number | null>(null);
+
   const { id } = useParams();
 
-  const isRoom = true;
-
-  const offerListOfRoom = offerList.slice(0, 3);
+  const offersListOfRoom = offerList.slice(0, 3);
 
   const review = offerList.slice().find((offer): boolean => offer.id === Number(id));
 
-  const coordinatesMarker = review?.coordinates.slice(0, 3);
-
-  const map = coordinatesMarker ?
-    <Map coordinates={coordinatesMarker} /> :
-    <section className="cities__map map"></section>;
+  const coordinatesMarker = offersListOfRoom.map((offer) => offer.coordinate);
 
   return (
     <main className="page__main page__main--property">
@@ -157,12 +151,12 @@ function Room({ offerList }: RoomProps): JSX.Element {
             </section>
           </div>
         </div>
-        {map}
+        <Map coordinates={coordinatesMarker}/>
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <OfferList isRoom={isRoom} setOfferActive={setOfferActive} offerList={offerListOfRoom} />
+          <OfferList setOfferActive={setOfferActive} offerList={offersListOfRoom} />
         </section>
       </div>
     </main>

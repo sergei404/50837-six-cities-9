@@ -1,11 +1,20 @@
 type CityProps = {
   name: string,
-  isActive: boolean
+  index: number
+  isActive: boolean,
+  getName: (name: string) => void
+  getActive: (index: number) => void
 }
 
-function City({name, isActive}: CityProps): JSX.Element {
+function City({name, index, isActive, getName, getActive}: CityProps): JSX.Element {
+
+  const getActivAndName = () => {
+    getName(name);
+    getActive(index);
+  };
+
   return (
-    <li className="locations__item">
+    <li onClick={getActivAndName} className="locations__item">
       <a className={`locations__item-link tabs__item ${isActive ? 'tabs__item--active' : ''}`} href="#s">
         <span>{name}</span>
       </a>

@@ -8,10 +8,8 @@ import NotFound from '../not_found/not-found';
 import PrivateRoute from '../private_route/private-route';
 import Layout from '../layout/layout';
 import { offerType } from '../../types/offerType';
-//import offerList from '../offer-list/offer-list';
 
 type AppProps = {
-  cityList: string[];
   offerList: offerType[]
 };
 
@@ -21,7 +19,8 @@ function App(props: AppProps): JSX.Element {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Main {...props} />} />
+          {/* <Route index element={<Main {...props} />} /> */}
+          <Route index element={<Main/>} />
           <Route path="favorites" element={
             <PrivateRoute>
               <Favorites offerList={props.offerList} />
