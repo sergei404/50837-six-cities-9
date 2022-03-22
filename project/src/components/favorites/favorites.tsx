@@ -9,17 +9,6 @@ type FavoritesProps = {
 function Favorites({offerList}: FavoritesProps): JSX.Element {
   const offers = offerList.filter((item) => item.bookmark);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // const [offerActive, setOfferActive] = useState<number | null>(null);
-
-  // const setId = (id: number) => {
-  //   setOfferActive(id);
-  // };
-
-  // const setNull = () => {
-  //   setOfferActive(null);
-  // };
-
   return (
     <main className="page__main page__main--favorites">
       <div className="page__favorites-container container">

@@ -8,7 +8,6 @@ type MapProps = {
 };
 
 function Map({coordinates}: MapProps): JSX.Element {
-
   const mapRef = useRef(null);
   const map = useMap(mapRef, coordinates[0]);
 
@@ -27,21 +26,25 @@ function Map({coordinates}: MapProps): JSX.Element {
   //   iconSize: [40, 40],
   //   iconAnchor: [20, 40],
   // });
+  const coords = coordinates.map(([lat, lng]) => {
+    const marker = new leaflet.Marker({lat, lng},
+      {
+        icon: defaultCustomIcon,
+      });
+    return marker;
+  });
 
   useEffect(() => {
+    const groupMarkers = leaflet.layerGroup(coords);
+
     if (map) {
-      coordinates.forEach(([lat, lng]) => {
-        leaflet
-          .marker({
-            lat,
-            lng,
-          }, {
-            icon: defaultCustomIcon,
-          })
-          .addTo(map);
-      });
+      groupMarkers.addTo(map);
+
+      return () => {
+        map.removeLayer(groupMarkers);
+      };
     }
-  }, [map, coordinates, defaultCustomIcon]);
+  }, [map, coords, defaultCustomIcon]);
 
   return (
     <section style={{height: '100vh'}} ref={mapRef} className="cities__map map"></section>

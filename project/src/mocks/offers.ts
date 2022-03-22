@@ -88,4 +88,5 @@ export const offers: offerType[] = new Array(15)
     },
     coordinate: coordinates[getRandomNumber(0, coordinates.length - 1)],
     city: cityList[getRandomNumber(0, cityList.length - 1)],
+    price: getRandomNumber(80, 180),
   }));
