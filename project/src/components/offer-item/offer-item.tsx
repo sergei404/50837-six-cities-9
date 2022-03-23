@@ -2,25 +2,12 @@ import { Link } from 'react-router-dom';
 import { offerType } from '../../types/offerType';
 
 type OfferItemProps = {
-  setOfferActive?:  (id: number | null) => void
   offer: offerType
+  onListItemHover: (id: number) => void
 };
 
-function OfferItem({setOfferActive, offer}: OfferItemProps): JSX.Element {
+function OfferItem({onListItemHover, offer}: OfferItemProps): JSX.Element {
   const {id, rank, offerPhoto, title, price, bookmark, rating, features: {category}} = offer;
-
-
-  function setMouseEnterId(): void {
-    if (setOfferActive) {
-      setOfferActive(id);
-    }
-  }
-
-  function setMouseOver(): void {
-    if (setOfferActive) {
-      setOfferActive(null);
-    }
-  }
 
   const isRank = rank ?
     (
@@ -31,8 +18,9 @@ function OfferItem({setOfferActive, offer}: OfferItemProps): JSX.Element {
     null;
 
   return (
-    <article onMouseLeave={setMouseOver}
-      onMouseEnter={setMouseEnterId} className="cities__place-card place-card"
+    <article
+      onMouseEnter={() => onListItemHover(id)}
+      className="cities__place-card place-card"
     >
       { isRank }
       <div className="cities__image-wrapper place-card__image-wrapper">

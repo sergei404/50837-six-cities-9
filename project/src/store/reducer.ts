@@ -8,7 +8,7 @@ export type initialStateType = {
   offersOfCity: offerType[];
   offersList: offerType[];
   cityList: string[];
-  filter: string;
+  //filter: string;
 }
 
 const initialState: initialStateType = {
@@ -17,7 +17,7 @@ const initialState: initialStateType = {
   ,
   offersList: offers,
   cityList,
-  filter: 'Pooular',
+  //filter: 'Pooular',
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -28,20 +28,16 @@ const reducer = createReducer(initialState, (builder) => {
       state.offersOfCity = newOfferList;
     })
     .addCase(filterOffersAction, (state, action) => {
-      state.filter = action.payload;
       const filterOffers = {
-        'Popular': state.offersOfCity,
-        'Price: low to high': state.offersOfCity.sort((prev, next) => prev.price - next.price),
-        'Price: high to low': state.offersOfCity.sort((prev, next) => next.price - prev.price),
-        'Top rated first': state.offersOfCity.sort((prev, next) => next.rating - prev.rating),
+        'Price: low to high': (prev: offerType, next: offerType) => prev.price - next.price,
+        'Price: high to low': (prev: offerType, next: offerType): number => next.price - prev.price,
+        'Top rated first': (prev: offerType, next: offerType) => next.rating - prev.rating,
       };
-      // eslint-disable-next-line no-console
-      console.log(filterOffers[action.payload]);
-
-      state.offersOfCity = filterOffers[action.payload];
+      if (action.payload === 'Popular') {
+        state.offersOfCity = state.offersList.filter((offer: { city: string; }) => offer.city === state.city);
+      }
+      state.offersOfCity = state.offersOfCity.sort(filterOffers[action.payload]);
     });
 });
 
 export { reducer };
-
-

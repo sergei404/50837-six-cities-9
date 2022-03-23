@@ -5,15 +5,18 @@ import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
   coordinates: number[][]
+  selectedPoint: number
 };
 
-function Map({coordinates}: MapProps): JSX.Element {
+function Map({coordinates, selectedPoint}: MapProps): JSX.
+Element {
+
   const mapRef = useRef(null);
   const map = useMap(mapRef, coordinates[0]);
 
   const URL_MARKER_DEFAULT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
 
-  // const URL_MARKER_CURRENT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
+  const URL_MARKER_CURRENT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
 
   const defaultCustomIcon = leaflet.icon({
     iconUrl: URL_MARKER_DEFAULT,
@@ -21,15 +24,17 @@ function Map({coordinates}: MapProps): JSX.Element {
     iconAnchor: [20, 40],
   });
 
-  // const currentCustomIcon = leaflet.icon({
-  //   iconUrl: URL_MARKER_CURRENT,
-  //   iconSize: [40, 40],
-  //   iconAnchor: [20, 40],
-  // });
-  const coords = coordinates.map(([lat, lng]) => {
+  const currentCustomIcon = leaflet.icon({
+    iconUrl: URL_MARKER_CURRENT,
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  });
+  const coords = coordinates.map(([lat, lng, id]) => {
     const marker = new leaflet.Marker({lat, lng},
       {
-        icon: defaultCustomIcon,
+        icon: id === selectedPoint
+          ? currentCustomIcon
+          : defaultCustomIcon,
       });
     return marker;
   });
