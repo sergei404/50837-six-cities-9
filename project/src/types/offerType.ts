@@ -29,3 +29,7 @@ export type offerType = {
   city: string
 };
 
+export type FilterOffers = {
+  [key: string]: (a: offerType, b: offerType) => number;
+}
+

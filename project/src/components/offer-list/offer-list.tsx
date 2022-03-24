@@ -4,8 +4,8 @@ import OfferItem from '../offer-item/offer-item';
 
 type OfferListProps = {
   offerList: offerType[]
-  isRoom?: boolean
-  onListItemHover: (id: number) => void
+  isRoom: boolean
+  onListItemHover?:  (id: number | null) => void
 };
 
 function OfferList(props: OfferListProps): JSX.Element {

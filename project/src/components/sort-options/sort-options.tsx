@@ -17,10 +17,8 @@ function SortOptions({getFilter}: SortOptionsProps): JSX.Element {
 
   const listSortValue = sortValues.map((value) => <li key={value} onClick={() => getValue(value)} className={sotrName === value ? 'places__option places__option--active' : 'places__option'} tabIndex={0}>{value}</li>);
 
-  function getShowSelect(evt): void {
-    if (evt.target.classList.contains('places__sorting-type')) {
-      setShowSelect(!showSelect);
-    }
+  function getShowSelect(): void {
+    setShowSelect(!showSelect);
   }
 
   return (

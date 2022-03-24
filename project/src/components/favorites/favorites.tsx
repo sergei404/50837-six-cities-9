@@ -1,20 +1,26 @@
 // import { useState } from 'react';
-import {offerType} from '../../types/offerType';
+import { useSelector } from 'react-redux';
+import { initialStateType } from '../../store/reducer';
+//import {offerType} from '../../types/offerType';
 import OfferList from '../offer-list/offer-list';
 
-type FavoritesProps = {
-  offerList: offerType[]
-};
+// type FavoritesProps = {
+//   offerList: offerType[]
+// };
 
-function Favorites({offerList}: FavoritesProps): JSX.Element {
-  const offers = offerList.filter((item) => item.bookmark);
+//function Favorites({offerList}: FavoritesProps): JSX.Element {
+function Favorites(): JSX.Element {
+  //const offers = offerList.filter((item) => item.bookmark);
+  const offers = useSelector((state: initialStateType) => state.offersList);
+  const offersOfFavorite = offers.filter((item) => item.bookmark);
+
 
   return (
     <main className="page__main page__main--favorites">
       <div className="page__favorites-container container">
         <section className="favorites">
           <h1 className="favorites__title">Saved listing</h1>
-          <OfferList offerList={offers}/>
+          <OfferList offerList={offersOfFavorite} isRoom={false}/>
           {/* <OfferList setNull={setNull} setId={setId} offerList={offers}/> */}
           {/* <ul className="favorites__list">
             <li className="favorites__locations-items">

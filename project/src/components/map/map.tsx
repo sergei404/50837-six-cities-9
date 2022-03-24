@@ -3,10 +3,12 @@ import useMap from '../../hooks/useMap';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-type MapProps = {
-  coordinates: number[][]
-  selectedPoint: number
+type NewType = {
+  coordinates: number[][];
+  selectedPoint: number | null;
 };
+
+type MapProps = NewType;
 
 function Map({coordinates, selectedPoint}: MapProps): JSX.
 Element {

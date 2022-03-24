@@ -1,14 +1,13 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { filterOffersAction, getCityAction } from './action';
 import { offers, cityList } from '../mocks/offers';
-import { offerType } from '../types/offerType';
+import { offerType, FilterOffers } from '../types/offerType';
 
 export type initialStateType = {
   city: string;
   offersOfCity: offerType[];
   offersList: offerType[];
   cityList: string[];
-  //filter: string;
 }
 
 const initialState: initialStateType = {
@@ -17,7 +16,6 @@ const initialState: initialStateType = {
   ,
   offersList: offers,
   cityList,
-  //filter: 'Pooular',
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -28,7 +26,7 @@ const reducer = createReducer(initialState, (builder) => {
       state.offersOfCity = newOfferList;
     })
     .addCase(filterOffersAction, (state, action) => {
-      const filterOffers = {
+      const filterOffers: FilterOffers = {
         'Price: low to high': (prev: offerType, next: offerType) => prev.price - next.price,
         'Price: high to low': (prev: offerType, next: offerType): number => next.price - prev.price,
         'Top rated first': (prev: offerType, next: offerType) => next.rating - prev.rating,

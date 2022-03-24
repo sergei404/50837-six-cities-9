@@ -12,9 +12,9 @@ function Main(): JSX.Element {
   const cityName = useSelector((state: initialStateType) => state.city);
   const offersOfCity = useSelector((state: initialStateType) => state.offersOfCity);
   const cities = useSelector((state: initialStateType) => state.cityList);
-  const [selectedPoint, setSelectedPoint] = useState(0);
+  const [selectedPoint, setSelectedPoint] = useState<number | null>(null);
 
-  const onListItemHover = (listItemId: number) => {
+  const onListItemHover = (listItemId: number | null) => {
     setSelectedPoint(listItemId);
   };
 
@@ -47,7 +47,7 @@ function Main(): JSX.Element {
             <h2 className="visually-hidden">Places</h2>
             <b className="places__found">{offersOfCity.length} places to stay in {cityName}</b>
             <SortOptions getFilter={getFilter}/>
-            <OfferList onListItemHover={onListItemHover} offerList={offersOfCity}/>
+            <OfferList isRoom={false} onListItemHover={onListItemHover} offerList={offersOfCity}/>
           </section>
           <div className="cities__right-section">
             <Map coordinates={coordinates} selectedPoint={selectedPoint}/>
