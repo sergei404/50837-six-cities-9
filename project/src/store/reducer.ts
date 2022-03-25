@@ -1,13 +1,13 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { getCityAction } from './action';
+import { filterOffersAction, getCityAction } from './action';
 import { offers, cityList } from '../mocks/offers';
-import { offerType } from '../types/offerType';
+import { offerType, FilterOffers } from '../types/offerType';
 
 export type initialStateType = {
   city: string;
   offersOfCity: offerType[];
   offersList: offerType[];
-  cityList: string[]
+  cityList: string[];
 }
 
 const initialState: initialStateType = {
@@ -24,9 +24,18 @@ const reducer = createReducer(initialState, (builder) => {
       state.city = action.payload;
       const newOfferList = state.offersList.filter((offer: { city: string; }) => offer.city === state.city);
       state.offersOfCity = newOfferList;
+    })
+    .addCase(filterOffersAction, (state, action) => {
+      const filterOffers: FilterOffers = {
+        'Price: low to high': (prev: offerType, next: offerType) => prev.price - next.price,
+        'Price: high to low': (prev: offerType, next: offerType): number => next.price - prev.price,
+        'Top rated first': (prev: offerType, next: offerType) => next.rating - prev.rating,
+      };
+      if (action.payload === 'Popular') {
+        state.offersOfCity = state.offersList.filter((offer: { city: string; }) => offer.city === state.city);
+      }
+      state.offersOfCity = state.offersOfCity.sort(filterOffers[action.payload]);
     });
 });
 
 export { reducer };
-
-

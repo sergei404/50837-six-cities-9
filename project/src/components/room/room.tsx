@@ -1,4 +1,4 @@
-import FeedbackForm from '../feedback_form/feedback-form';
+import FeedbackForm from '../feedback-form/feedback-form';
 import ListReview from '../list-review/list-review';
 import { useParams } from 'react-router-dom';
 import { offerType } from '../../types/offerType';
@@ -12,7 +12,13 @@ type RoomProps = {
 
 function Room({ offerList }: RoomProps): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [offerActive, setOfferActive] = useState<number | null>(null);
+  //const [offerActive, setOfferActive] = useState<number | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [selectedPoint, setSelectedPoint] = useState<number | null>(null);
+
+  const onListItemHover = (listItemId: number | null) => {
+    setSelectedPoint(listItemId);
+  };
 
   const { id } = useParams();
 
@@ -20,7 +26,7 @@ function Room({ offerList }: RoomProps): JSX.Element {
 
   const review = offerList.slice().find((offer): boolean => offer.id === Number(id));
 
-  const coordinatesMarker = offersListOfRoom.map((offer) => offer.coordinate);
+  const coordinatesMarker = offersListOfRoom.map((offer) => [...offer.coordinate, offer.id]);
 
   return (
     <main className="page__main page__main--property">
@@ -151,12 +157,12 @@ function Room({ offerList }: RoomProps): JSX.Element {
             </section>
           </div>
         </div>
-        <Map coordinates={coordinatesMarker}/>
+        <Map coordinates={coordinatesMarker} selectedPoint={selectedPoint}/>
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <OfferList setOfferActive={setOfferActive} offerList={offersListOfRoom} />
+          <OfferList onListItemHover={onListItemHover} offerList={offersListOfRoom} isRoom={false}/>
         </section>
       </div>
     </main>

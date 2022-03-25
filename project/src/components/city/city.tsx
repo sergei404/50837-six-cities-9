@@ -1,17 +1,15 @@
 type CityProps = {
   name: string,
-  index: number
   isActive: boolean,
   getName: (name: string) => void
-  getActive: (index: number) => void
 }
 
-function City({name, index, isActive, getName, getActive}: CityProps): JSX.Element {
+function City({name, isActive, getName}: CityProps): JSX.Element {
 
   const getActivAndName = () => {
     getName(name);
-    getActive(index);
-  };
+    //getActive(index);
+  };//onClick={getActivAndName}
 
   return (
     <li onClick={getActivAndName} className="locations__item">

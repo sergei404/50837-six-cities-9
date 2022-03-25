@@ -3,18 +3,22 @@ import useMap from '../../hooks/useMap';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-type MapProps = {
-  coordinates: number[][]
+type NewType = {
+  coordinates: number[][];
+  selectedPoint: number | null;
 };
 
-function Map({coordinates}: MapProps): JSX.Element {
+type MapProps = NewType;
+
+function Map({coordinates, selectedPoint}: MapProps): JSX.
+Element {
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, coordinates[0]);
 
   const URL_MARKER_DEFAULT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
 
-  // const URL_MARKER_CURRENT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
+  const URL_MARKER_CURRENT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
 
   const defaultCustomIcon = leaflet.icon({
     iconUrl: URL_MARKER_DEFAULT,
@@ -22,26 +26,32 @@ function Map({coordinates}: MapProps): JSX.Element {
     iconAnchor: [20, 40],
   });
 
-  // const currentCustomIcon = leaflet.icon({
-  //   iconUrl: URL_MARKER_CURRENT,
-  //   iconSize: [40, 40],
-  //   iconAnchor: [20, 40],
-  // });
+  const currentCustomIcon = leaflet.icon({
+    iconUrl: URL_MARKER_CURRENT,
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  });
+  const coords = coordinates.map(([lat, lng, id]) => {
+    const marker = new leaflet.Marker({lat, lng},
+      {
+        icon: id === selectedPoint
+          ? currentCustomIcon
+          : defaultCustomIcon,
+      });
+    return marker;
+  });
 
   useEffect(() => {
+    const groupMarkers = leaflet.layerGroup(coords);
+
     if (map) {
-      coordinates.forEach(([lat, lng]) => {
-        leaflet
-          .marker({
-            lat,
-            lng,
-          }, {
-            icon: defaultCustomIcon,
-          })
-          .addTo(map);
-      });
+      groupMarkers.addTo(map);
+
+      return () => {
+        map.removeLayer(groupMarkers);
+      };
     }
-  }, [map, coordinates, defaultCustomIcon]);
+  }, [map, coords, defaultCustomIcon]);
 
   return (
     <section style={{height: '100vh'}} ref={mapRef} className="cities__map map"></section>

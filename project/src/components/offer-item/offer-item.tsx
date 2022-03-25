@@ -2,25 +2,12 @@ import { Link } from 'react-router-dom';
 import { offerType } from '../../types/offerType';
 
 type OfferItemProps = {
-  setOfferActive?:  (id: number | null) => void
   offer: offerType
+  onListItemHover?: (listItemId: number | null) => void
 };
 
-function OfferItem({setOfferActive, offer}: OfferItemProps): JSX.Element {
-  const {id, rank, offerPhoto, title, price, bookmark, rating, features: {category}} = offer;
-
-
-  function setMouseEnterId(): void {
-    if (setOfferActive) {
-      setOfferActive(id);
-    }
-  }
-
-  function setMouseOver(): void {
-    if (setOfferActive) {
-      setOfferActive(null);
-    }
-  }
+function OfferItem({ onListItemHover, offer }: OfferItemProps): JSX.Element {
+  const { id, rank, offerPhoto, title, price, bookmark, rating, features: { category } } = offer;
 
   const isRank = rank ?
     (
@@ -30,11 +17,24 @@ function OfferItem({setOfferActive, offer}: OfferItemProps): JSX.Element {
     ) :
     null;
 
+  function setMouseEnterId(): void {
+    if (onListItemHover) {
+      onListItemHover(id);
+    }
+  }
+
+  function setMouseOver(): void {
+    if (onListItemHover) {
+      onListItemHover(null);
+    }
+  }
+
   return (
     <article onMouseLeave={setMouseOver}
-      onMouseEnter={setMouseEnterId} className="cities__place-card place-card"
+      onMouseEnter={setMouseEnterId}
+      className="cities__place-card place-card"
     >
-      { isRank }
+      {isRank}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#s">
           <img className="place-card__image" src={offerPhoto} width="260" height="200" alt={title[id]} />
@@ -62,7 +62,7 @@ function OfferItem({setOfferActive, offer}: OfferItemProps): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: `${rating}%`}}></span>
+            <span style={{ width: `${rating}%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
