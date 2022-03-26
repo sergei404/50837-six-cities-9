@@ -11,8 +11,8 @@ import OfferList from '../offer-list/offer-list';
 //function Favorites({offerList}: FavoritesProps): JSX.Element {
 function Favorites(): JSX.Element {
   //const offers = offerList.filter((item) => item.bookmark);
-  const offers = useSelector((state: initialStateType) => state.offersList);
-  const offersOfFavorite = offers.filter((item) => item.bookmark);
+  const offers = useSelector((state: initialStateType) => state.dataOffers);
+  const offersOfFavorite = offers.filter((item) => item.isFavorite);
 
 
   return (

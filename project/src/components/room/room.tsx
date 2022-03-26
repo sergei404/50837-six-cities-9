@@ -1,6 +1,6 @@
 import FeedbackForm from '../feedback-form/feedback-form';
-import ListReview from '../list-review/list-review';
-import { useParams } from 'react-router-dom';
+//import ListReview from '../list-review/list-review';
+//import { useParams } from 'react-router-dom';
 import { offerType } from '../../types/offerType';
 import Map from '../map/map';
 import OfferList from '../offer-list/offer-list';
@@ -16,17 +16,20 @@ function Room({ offerList }: RoomProps): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedPoint, setSelectedPoint] = useState<number | null>(null);
 
-  const onListItemHover = (listItemId: number | null) => {
-    setSelectedPoint(listItemId);
+  const onListItemHover = (listItem: number | null) => {
+    setSelectedPoint(listItem);
   };
 
-  const { id } = useParams();
+  // const { id } = useParams();
 
   const offersListOfRoom = offerList.slice(0, 3);
 
-  const review = offerList.slice().find((offer): boolean => offer.id === Number(id));
+  // const review = offerList.slice().find((offer: {id: number}): boolean => offer.id === Number(id));
 
-  const coordinatesMarker = offersListOfRoom.map((offer) => [...offer.coordinate, offer.id]);
+  const coordinates = offersListOfRoom.map(({location, id}) => ({
+    location,
+    id,
+  }));
 
   return (
     <main className="page__main page__main--property">
@@ -149,15 +152,16 @@ function Room({ offerList }: RoomProps): JSX.Element {
               </div>
             </div>
             <section className="property__reviews reviews">
-              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{review?.reviews.length}</span></h2>
+              {/* <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{review?.reviews.length}</span></h2> */}
+              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">3</span></h2>
 
-              <ListReview reviews={review?.reviews} />
+              {/* <ListReview reviews={review?.reviews} /> */}
 
               <FeedbackForm />
             </section>
           </div>
         </div>
-        <Map coordinates={coordinatesMarker} selectedPoint={selectedPoint}/>
+        <Map coordinates={coordinates} selectedPoint={selectedPoint}/>
       </section>
       <div className="container">
         <section className="near-places places">
