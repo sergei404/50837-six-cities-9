@@ -39,8 +39,10 @@ const reducer = createReducer(initialState, (builder) => {
       }
       state.offersOfCity = state.offersOfCity.sort(filterOffers[action.payload]);
     })
-    .addCase(loadOffersAction, (state, action) => {
-      state.dataOffers = action.payload;
+    .addCase(loadOffersAction, (state, {payload}: PayloadAction<[] | offerType[]>): void => {
+      state.dataOffers = payload;
+      const newOfferList = state.dataOffers.filter((offer: { city: {name: string}}) => offer.city.name === state.city);
+      state.offersOfCity = newOfferList;
       state.isLoading = true;
     });
 });

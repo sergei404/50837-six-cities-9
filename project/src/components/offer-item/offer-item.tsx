@@ -62,7 +62,7 @@ function OfferItem({ onListItemHover, offer }: OfferItemProps): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: `${rating}%` }}></span>
+            <span style={{ width: `${rating * 100 / 5}%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

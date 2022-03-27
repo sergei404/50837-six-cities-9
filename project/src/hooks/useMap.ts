@@ -3,6 +3,7 @@ import leaflet, {Map} from 'leaflet';
 import {Location} from './../types/offerType';
 
 function useMap(mapRef:  MutableRefObject<null>, coordinates: {location: Location, id: number}) {
+
   const [map, setMap] = useState<Map | null>(null);
 
   useEffect(() => {

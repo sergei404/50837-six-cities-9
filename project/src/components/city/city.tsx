@@ -1,5 +1,5 @@
 type CityProps = {
-  name: string,
+  name: string
   isActive: boolean,
   getName: (name: string) => void
 }
