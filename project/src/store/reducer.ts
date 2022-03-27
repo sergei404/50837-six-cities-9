@@ -6,8 +6,7 @@ import { offerType, FilterOffers } from '../types/offerType';
 export type initialStateType = {
   city: string;
   offersOfCity: offerType[];
-  // offersList: offerType[];
-  // cityList: string[];
+  cityList: string[];
   isLoading: boolean;
   dataOffers: offerType[]
 }
@@ -15,8 +14,7 @@ export type initialStateType = {
 const initialState: initialStateType = {
   city: 'Paris',
   offersOfCity: [],
-  // offersList: offers,
-  // cityList,
+  cityList: [],
   isLoading: false,
   dataOffers: [],
 };
@@ -39,10 +37,11 @@ const reducer = createReducer(initialState, (builder) => {
       }
       state.offersOfCity = state.offersOfCity.sort(filterOffers[action.payload]);
     })
-    .addCase(loadOffersAction, (state, {payload}: PayloadAction<[] | offerType[]>): void => {
+    .addCase(loadOffersAction, (state, {payload}): void => {
       state.dataOffers = payload;
       const newOfferList = state.dataOffers.filter((offer: { city: {name: string}}) => offer.city.name === state.city);
       state.offersOfCity = newOfferList;
+      state.cityList = [...new Set(state.dataOffers.map((offer) => offer.city.name))];
       state.isLoading = true;
     });
 });

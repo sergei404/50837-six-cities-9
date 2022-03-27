@@ -11,9 +11,7 @@ import SortOptions from '../sort-options/sort-options';
 function Main(): JSX.Element {
   const cityName = useSelector((state: initialStateType) => state.city);
   const offersOfCity = useSelector((state: initialStateType) => state.offersOfCity);
-  const dataOffers = useSelector((state: initialStateType) => state.dataOffers);
-
-  const cities = [...new Set(dataOffers.map((offer) => offer.city.name))];
+  const cities = useSelector((state: initialStateType) => state.cityList);
 
   const [selectedPoint, setSelectedPoint] = useState<number | null>(null);
 
@@ -27,6 +25,7 @@ function Main(): JSX.Element {
   }));
 
   const dispatch = useDispatch();
+  //dispatch(getCityAction(cityName));
 
   const getCityName = (name: string) => {
     dispatch(getCityAction(name));

@@ -8,12 +8,22 @@ import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout';
 import { offerType } from '../../types/offerType';
+import Preloader from './../preloader/preloader';
+import { useSelector } from 'react-redux';
+import { initialStateType } from '../../store/reducer';
 
 type AppProps = {
   offerList: offerType[]
 };
 
 function App(props: AppProps): JSX.Element {
+  const isLoading = useSelector((state: initialStateType) => state.isLoading);
+
+  if (!isLoading) {
+    return (
+      <Preloader/>
+    );
+  }
 
   return (
     <BrowserRouter>
