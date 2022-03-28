@@ -2,17 +2,16 @@ import {useRef, useEffect} from 'react';
 import useMap from '../../hooks/useMap';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import {Location} from './../../types/offerType';
 
-type NewType = {
-  coordinates: number[][];
+
+type MapProps = {
+  coordinates: {location: Location, id: number}[];
   selectedPoint: number | null;
 };
 
-type MapProps = NewType;
-
 function Map({coordinates, selectedPoint}: MapProps): JSX.
 Element {
-
   const mapRef = useRef(null);
   const map = useMap(mapRef, coordinates[0]);
 
@@ -31,7 +30,7 @@ Element {
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });
-  const coords = coordinates.map(([lat, lng, id]) => {
+  const coords = coordinates.map(({location: {latitude: lat, longitude: lng}, id}) => {
     const marker = new leaflet.Marker({lat, lng},
       {
         icon: id === selectedPoint
