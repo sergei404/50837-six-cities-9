@@ -44,13 +44,14 @@ Element {
     const groupMarkers = leaflet.layerGroup(coords);
 
     if (map) {
+      map.setView({lat: coordinates[0].location.latitude, lng: coordinates[0].location.longitude});
       groupMarkers.addTo(map);
 
       return () => {
         map.removeLayer(groupMarkers);
       };
     }
-  }, [map, coords, defaultCustomIcon]);
+  }, [map, coords, coordinates]);
 
   return (
     <section style={{height: '100vh'}} ref={mapRef} className="cities__map map"></section>

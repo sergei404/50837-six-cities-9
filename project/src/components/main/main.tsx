@@ -25,7 +25,6 @@ function Main(): JSX.Element {
   }));
 
   const dispatch = useDispatch();
-  //dispatch(getCityAction(cityName));
 
   const getCityName = (name: string) => {
     dispatch(getCityAction(name));
