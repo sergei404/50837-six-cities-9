@@ -11,15 +11,16 @@ import { offerType } from '../../types/offerType';
 import Preloader from './../preloader/preloader';
 import { useSelector } from 'react-redux';
 import { initialStateType } from '../../store/reducer';
+import { AuthorizationStatus } from '../../const';
 
 type AppProps = {
   offerList: offerType[]
 };
 
 function App(props: AppProps): JSX.Element {
-  const isLoading = useSelector((state: initialStateType) => state.isLoading);
+  const {authorizationStatus, isLoading} = useSelector((state: initialStateType) => state);
 
-  if (!isLoading) {
+  if (authorizationStatus === AuthorizationStatus.Unknown &&!isLoading) {
     return (
       <Preloader/>
     );
@@ -29,18 +30,14 @@ function App(props: AppProps): JSX.Element {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          {/* <Route index element={<Main {...props} />} /> */}
           <Route index element={<Main/>} />
           <Route path="favorites" element={
-            <PrivateRoute>
+            <PrivateRoute authorizationStatus={authorizationStatus}>
               <Favorites/>
-              {/* <Favorites offerList={props.offerList} /> */}
             </PrivateRoute>
           }
           />
           <Route path="offer/:id" element={<Property offerList={props.offerList} />} />
-          {/* <Route path=":id" element={<Property/>} />
-          </Route> */}
         </Route>
         <Route path="login" element={<SingIn />} />
         <Route path="*" element={<NotFound />} />

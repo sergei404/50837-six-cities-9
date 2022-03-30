@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { filterOffersAction, getCityAction, loadOffersAction } from './action';
-//import { offers, cityList } from '../mocks/offers';
+import { filterOffersAction, getCityAction, loadOffersAction, loginAction } from './action';
+import { AuthorizationStatus } from './../const';
 import { offerType, FilterOffers } from '../types/offerType';
 
 export type initialStateType = {
@@ -8,7 +8,8 @@ export type initialStateType = {
   offersOfCity: offerType[];
   cityList: string[];
   isLoading: boolean;
-  dataOffers: offerType[]
+  dataOffers: offerType[];
+  authorizationStatus: string;
 }
 
 const initialState: initialStateType = {
@@ -17,6 +18,7 @@ const initialState: initialStateType = {
   cityList: [],
   isLoading: false,
   dataOffers: [],
+  authorizationStatus: AuthorizationStatus.Unknown,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -43,6 +45,9 @@ const reducer = createReducer(initialState, (builder) => {
       state.offersOfCity = newOfferList;
       state.cityList = [...new Set(state.dataOffers.map((offer) => offer.city.name))];
       state.isLoading = true;
+    })
+    .addCase(loginAction, (state, action) => {
+      state.authorizationStatus = action.payload;
     });
 });
 
