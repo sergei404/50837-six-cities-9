@@ -4,9 +4,7 @@ import { saveToken } from '../services/token';
 import {store, api} from '../store';
 import { AuthData } from '../types/auth-data';
 import { loadOffersAction, loginAction } from './action';
-import {createBrowserHistory} from 'history';
-
-const history = createBrowserHistory();
+import browserHistory from '../browser-history';
 
 export const loadFetchOffersAction = createAsyncThunk(
   'loadFetchOffers',
@@ -30,7 +28,7 @@ export const authorizationAction = createAsyncThunk(
     const {data: {token}} = await api.post('/login', {...authData});
     saveToken(token);
     store.dispatch(loginAction(AuthorizationStatus.Auth));
-    history.push('/');
+    browserHistory.push('/');
   },
 );
 
