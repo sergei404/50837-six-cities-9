@@ -1,7 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { filterOffersAction, getCityAction, loadOffersAction, loginAction } from './action';
+import { filterOffersAction, getCityAction, loadOffersAction, loginAction, offerAction, reviewAction, setError } from './action';
 import { AuthorizationStatus } from './../const';
 import { offerType, FilterOffers } from '../types/offerType';
+import { reviewsType } from '../types/reviewType';
 
 export type initialStateType = {
   city: string;
@@ -10,6 +11,10 @@ export type initialStateType = {
   isLoading: boolean;
   dataOffers: offerType[];
   authorizationStatus: string;
+  offer: offerType | null;
+  comments: reviewsType[];
+  nearby: offerType[];
+  error: string;
 }
 
 const initialState: initialStateType = {
@@ -19,6 +24,10 @@ const initialState: initialStateType = {
   isLoading: false,
   dataOffers: [],
   authorizationStatus: AuthorizationStatus.Unknown,
+  offer: null,
+  comments: [],
+  nearby: [],
+  error: '',
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -48,6 +57,17 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loginAction, (state, action) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase(offerAction, (state, {payload}): void => {
+      state.offer = payload.dataOffer;
+      state.comments = payload.dataComments;
+      state.nearby = payload.dataNearby;
+    })
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
+    })
+    .addCase(reviewAction, (state, action) => {
+      state.comments.push(action.payload);
     });
 });
 

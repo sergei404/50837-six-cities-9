@@ -1,34 +1,51 @@
 import FeedbackForm from '../feedback-form/feedback-form';
-//import ListReview from '../list-review/list-review';
-//import { useParams } from 'react-router-dom';
-import { offerType } from '../../types/offerType';
+import { useParams } from 'react-router-dom';
+//import { offerType } from '../../types/offerType';
 import Map from '../map/map';
 import OfferList from '../offer-list/offer-list';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+//import { useSelector, useDispatch } from 'react-redux';
+import { initialStateType } from '../../store/reducer';
+import { offerFetchAction } from '../../store/api-action';
+import { AuthorizationStatus } from '../../const';
+import ListReview from '../list-review/list-review';
+import { store } from '../../store';
 
-type RoomProps = {
-  offerList: offerType[]
-};
+// type RoomProps = {
+//   offerList: offerType[]
+// };
 
-function Room({ offerList }: RoomProps): JSX.Element {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  //const [offerActive, setOfferActive] = useState<number | null>(null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+//function Room({ offerList }: RoomProps): JSX.Element {
+function Room(): JSX.Element {
   const [selectedPoint, setSelectedPoint] = useState<number | null>(null);
 
   const onListItemHover = (listItem: number | null) => {
     setSelectedPoint(listItem);
   };
 
-  // const { id } = useParams();
+  const { id } = useParams();
+  const numberId = Number(id);
+  //const dispatch = useDispatch();
 
-  const offersListOfRoom = offerList.slice(0, 3);
+  const authorizationStatus = useSelector((state: initialStateType) => state.authorizationStatus);
+  const offer = useSelector((state: initialStateType) => state.offer);
+  const comments = useSelector((state: initialStateType) => state.comments);
 
-  // const review = offerList.slice().find((offer: {id: number}): boolean => offer.id === Number(id));
+  //const offersListOfRoom = useSelector((state: initialStateType) => state.nearby);
 
-  const coordinates = offersListOfRoom.map(({location, id}) => ({
-    location,
-    id,
+  useEffect(() => {
+    store.dispatch(offerFetchAction(numberId));
+    //dispatch(offerFetchAction(Number(id)));
+  }, [numberId]);
+  //}, [store, id]);
+
+  const offersListOfRoom = useSelector((state: initialStateType) => state.offersOfCity).slice(0, 3);
+
+
+  const coordinates = offersListOfRoom.map((item) => ({
+    location: item.location,
+    id: item.id,
   }));
 
   return (
@@ -36,10 +53,13 @@ function Room({ offerList }: RoomProps): JSX.Element {
       <section className="property">
         <div className="property__gallery-container container">
           <div className="property__gallery">
-            <div className="property__image-wrapper">
-              <img className="property__image" src="img/room.jpg" alt="Photo_studio" />
-            </div>
-            <div className="property__image-wrapper">
+            {offer?.images.map((image) => (
+              <div key={image} className="property__image-wrapper">
+                <img className="property__image" src={image} alt="Photo_studio" />
+              </div>
+            ))}
+
+            {/* <div className="property__image-wrapper">
               <img className="property__image" src="img/apartment-01.jpg" alt="Photo_studio" />
             </div>
             <div className="property__image-wrapper">
@@ -53,51 +73,73 @@ function Room({ offerList }: RoomProps): JSX.Element {
             </div>
             <div className="property__image-wrapper">
               <img className="property__image" src="img/apartment-01.jpg" alt="Photo_studio" />
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="property__container container">
           <div className="property__wrapper">
-            <div className="property__mark">
-              <span>Premium</span>
-            </div>
+            {
+              offer?.isPremium ?
+                <div className="property__mark">
+                  <span>Premium</span>
+                </div> :
+                ''
+            }
             <div className="property__name-wrapper">
               <h1 className="property__name">
-                Beautiful &amp; luxurious studio at great location
+                {offer?.title}
               </h1>
-              <button className="property__bookmark-button button" type="button">
+              {offer?.isFavorite ?
+                <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
+                  <svg className="place-card__bookmark-icon" width="18" height="19">
+                    <use xlinkHref="#icon-bookmark"></use>
+                  </svg>
+                  <span className="visually-hidden">In bookmarks</span>
+                </button> :
+                <button className="place-card__bookmark-button button" type="button">
+                  <svg className="place-card__bookmark-icon" width="18" height="19">
+                    <use xlinkHref="#icon-bookmark"></use>
+                  </svg>
+                  <span className="visually-hidden">To bookmarks</span>
+                </button>}
+              {/* <button className="property__bookmark-button button" type="button">
                 <svg className="property__bookmark-icon" width="31" height="33">
                   <use xlinkHref="#icon-bookmark"></use>
                 </svg>
                 <span className="visually-hidden">To bookmarks</span>
-              </button>
+              </button> */}
             </div>
             <div className="property__rating rating">
               <div className="property__stars rating__stars">
-                <span style={{ width: '800%' }}></span>
+                <span style={{ width: `${offer ? offer.rating * 100 / 5 : 0}%`  }}></span>
                 <span className="visually-hidden">Rating</span>
               </div>
-              <span className="property__rating-value rating__value">4.8</span>
+              <span className="property__rating-value rating__value">{offer?.rating}</span>
             </div>
             <ul className="property__features">
               <li className="property__feature property__feature--entire">
-                Apartment
+                {offer?.type}
               </li>
               <li className="property__feature property__feature--bedrooms">
-                3 Bedrooms
+                {offer?.bedrooms} Bedrooms
               </li>
               <li className="property__feature property__feature--adults">
-                Max 4 adults
+                Max {offer?.maxAdults} adults
               </li>
             </ul>
             <div className="property__price">
-              <b className="property__price-value">&euro;120</b>
+              <b className="property__price-value">&euro;{offer?.price}</b>
               <span className="property__price-text">&nbsp;night</span>
             </div>
             <div className="property__inside">
               <h2 className="property__inside-title">What&apos;s inside</h2>
               <ul className="property__inside-list">
-                <li className="property__inside-item">
+                {offer?.goods.map((good) => (
+                  <li key={good} className="property__inside-item">
+                    {good}
+                  </li>
+                ))}
+                {/* <li className="property__inside-item">
                   Wi-Fi
                 </li>
                 <li className="property__inside-item">
@@ -126,47 +168,51 @@ function Room({ offerList }: RoomProps): JSX.Element {
                 </li>
                 <li className="property__inside-item">
                   Fridge
-                </li>
+                </li> */}
               </ul>
             </div>
             <div className="property__host">
               <h2 className="property__host-title">Meet the host</h2>
               <div className="property__host-user user">
                 <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                  <img className="property__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar" />
+                  <img className="property__avatar user__avatar" src={offer?.host.avatarUrl} width="74" height="74" alt="Host avatar" />
                 </div>
                 <span className="property__user-name">
-                  Angelina
+                  {offer?.host.name}
                 </span>
-                <span className="property__user-status">
-                  Pro
-                </span>
+                {offer?.host.isPro ?
+                  <span className="property__user-status">
+                    Pro
+                  </span> : ''}
               </div>
               <div className="property__description">
-                <p className="property__text">
+                {/* <p className="property__text">
                   A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
                 </p>
                 <p className="property__text">
                   An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
-                </p>
+                </p> */}
               </div>
             </div>
             <section className="property__reviews reviews">
               {/* <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{review?.reviews.length}</span></h2> */}
-              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">3</span></h2>
+              <h2 className="reviews__title">Reviews &middot;
+                <span className="reviews__amount"> {comments.length}
+                </span>
+              </h2>
 
-              {/* <ListReview reviews={review?.reviews} /> */}
+              <ListReview reviews={comments} />
 
-              <FeedbackForm />
+              {authorizationStatus === AuthorizationStatus.Auth && <FeedbackForm cityId={numberId}/>}
             </section>
           </div>
         </div>
-        <Map coordinates={coordinates} selectedPoint={selectedPoint}/>
+        <Map coordinates={coordinates} selectedPoint={selectedPoint} />
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <OfferList onListItemHover={onListItemHover} offerList={offersListOfRoom} isRoom={false}/>
+          <OfferList onListItemHover={onListItemHover} offerList={offersListOfRoom} isRoom={false} />
         </section>
       </div>
     </main>

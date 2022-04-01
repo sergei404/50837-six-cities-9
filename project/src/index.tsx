@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { offers } from './mocks/offers';
 import { store } from './store';
 import { checkAuthAction, loadFetchOffersAction } from './store/api-action';
+import ErrorMessage from './components/error-message/error-message';
 
 store.dispatch(loadFetchOffersAction());
 store.dispatch(checkAuthAction());
@@ -12,7 +13,8 @@ store.dispatch(checkAuthAction());
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App offerList={offers} />
+      <ErrorMessage/>
+      <App offerList={offers}/>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'));

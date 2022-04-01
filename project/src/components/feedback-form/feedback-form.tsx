@@ -1,14 +1,25 @@
-import {SyntheticEvent, useState} from 'react';
+import {FormEvent, SyntheticEvent, useState} from 'react';
+import { useDispatch } from 'react-redux';
+import { addReviewAction } from '../../store/api-action';
+import { ReviewData } from '../../types/review-data';
 
-function FeedbackForm(): JSX.Element {
+type FeedbackFormProps = {
+  cityId: number
+}
+
+function FeedbackForm({cityId}: FeedbackFormProps): JSX.Element {
   const [formData, setFormData] = useState({
-    '5-stars': '',
-    '4-stars': '',
-    '3-stars': '',
-    '2-stars': '',
-    '1-stars': '',
+    '5-stars': '5',
+    '4-stars': '4',
+    '3-stars': '3',
+    '2-stars': '2',
+    '1-stars': '1',
+    rating: '',
     review: '',
   });
+
+  const dispatch =  useDispatch();
+
 
   function fieldChangeHandle(evt: SyntheticEvent & { target: HTMLInputElement | HTMLTextAreaElement}): void {
     const { name, value } = evt.target;
@@ -16,8 +27,24 @@ function FeedbackForm(): JSX.Element {
     setFormData({ ...formData, [name]: value });
   }
 
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    const {rating, review} = formData;
+
+    const reviewData: ReviewData = {
+      rating: Number(rating),
+      review,
+    };
+
+    dispatch(addReviewAction(cityId, reviewData));
+
+    // emailRef.current.value = '';
+    // passwordRef.current.value = '';
+  };
+
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         <input className="form__rating-input visually-hidden" name="rating" value={formData['5-stars']} id="5-stars" type="radio" onChange={fieldChangeHandle}/>
@@ -60,7 +87,7 @@ function FeedbackForm(): JSX.Element {
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit">Submit</button>
       </div>
     </form>
   );
