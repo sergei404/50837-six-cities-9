@@ -1,8 +1,12 @@
-export type ReviewsOffer = {
+export type reviewsType = {
   id: number;
-  name: string;
-  avatar: string;
-  description: string;
+  comment: string;
   date: string;
-  grade: number;
+  rating: number;
+  user: {
+    avatarUrl: string;
+    id: number;
+    isPro: boolean;
+    name: string;
+  }
 };

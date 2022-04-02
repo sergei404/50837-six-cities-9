@@ -1,6 +1,6 @@
-import {ReviewsOffer} from '../../types/reviewType';
+import {reviewsType} from '../../types/reviewType';
 
-function Review(props: ReviewsOffer): JSX.Element {
+function Review(props: reviewsType): JSX.Element {
 
   return (
     <li className="reviews__item">
@@ -8,23 +8,23 @@ function Review(props: ReviewsOffer): JSX.Element {
         <div className="reviews__avatar-wrapper user__avatar-wrapper">
           <img
             className="reviews__avatar user__avatar"
-            src={props.avatar}
+            src={props.user.avatarUrl}
             width="54"
             height="54"
             alt="Reviews avatar"
           />
         </div>
-        <span className="reviews__user-name">{props.name}</span>
+        <span className="reviews__user-name">{props.user.name}</span>
       </div>
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{ width: `${props.grade}%` }}></span>
+            <span style={{ width: `${props.rating * 100 / 5}%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <p className="reviews__text">
-          {props.description}
+          {props.comment}
         </p>
         <time className="reviews__time" dateTime={props.date}>
           {props.date}
