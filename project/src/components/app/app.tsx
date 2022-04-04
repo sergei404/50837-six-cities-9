@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unused-prop-types */
 import Main from '../main/main';
-// import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { unstable_HistoryRouter as HistoryRouter, Routes, Route } from 'react-router-dom';
 import SingIn from '../sing-in/sing-in';
 import Favorites from '../favorites/favorites';
@@ -30,18 +29,16 @@ function App(props: AppProps): JSX.Element {
   }
 
   return (
-    // <BrowserRouter>
     <HistoryRouter history={browserHistory}>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Main/>} />
           <Route path="favorites" element={
-            <PrivateRoute authorizationStatus={authorizationStatus}>
+            <PrivateRoute>
               <Favorites/>
             </PrivateRoute>
           }
           />
-          {/* <Route path="offer/:id" element={<Property offerList={props.offerList}/>} /> */}
           <Route path="offer/:id" element={<Property/>} />
         </Route>
         <Route path="login" element={<SingIn />} />

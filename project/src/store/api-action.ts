@@ -5,7 +5,7 @@ import { errorHandle } from '../services/error-handle';
 import { saveToken } from '../services/token';
 import {store, api} from '../store';
 import { AuthData } from '../types/auth-data';
-//import { ReviewData } from '../types/review-data';
+import { ReviewData } from '../types/review-data';
 import { loadOffersAction, loginAction, offerAction, reviewAction, setError } from './action';
 
 export const loadFetchOffersAction = createAsyncThunk(
@@ -76,13 +76,13 @@ export const clearErrorAction = createAsyncThunk(
 
 export const addReviewAction = createAsyncThunk(
   'review',
-  async (offerId, reviewData) => {
+  async ({offerId, reviewData}: ReviewData) => {
     try {
       const {data} = await api.post(`/comments/${offerId}`, {...reviewData});
       store.dispatch(reviewAction(data));
     } catch (error) {
       errorHandle(error);
-      // store.dispatch(loginAction(AuthorizationStatus.NoAuth));
+      store.dispatch(loginAction(AuthorizationStatus.NoAuth));
     }
   },
 );

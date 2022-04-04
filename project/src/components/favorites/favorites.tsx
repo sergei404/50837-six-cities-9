@@ -3,8 +3,7 @@ import { initialStateType } from '../../store/reducer';
 import OfferList from '../offer-list/offer-list';
 
 function Favorites(): JSX.Element {
-  const offers = useSelector((state: initialStateType) => state.dataOffers);
-  const offersOfFavorite = offers.filter((item) => item.isFavorite);
+  const offersOfFavorite = useSelector((state: initialStateType) => state.favoriteOffers);
 
   return (
     <main className="page__main page__main--favorites">

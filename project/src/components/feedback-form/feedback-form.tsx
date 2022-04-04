@@ -30,17 +30,18 @@ function FeedbackForm({cityId}: FeedbackFormProps): JSX.Element {
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    const {rating, review} = formData;
+    if (formData.rating !== '' && formData.review !== '') {
+      const {rating, review} = formData;
+      const reviewData: ReviewData = {
+        offerId: cityId,
+        reviewData: {rating, comment: review},
+      };
 
-    const reviewData: ReviewData = {
-      rating: Number(rating),
-      review,
-    };
+      dispatch(addReviewAction(reviewData));
 
-    dispatch(addReviewAction(cityId, reviewData));
-
-    // emailRef.current.value = '';
-    // passwordRef.current.value = '';
+      formData.rating = '';
+      formData.review = '';
+    }
   };
 
   return (

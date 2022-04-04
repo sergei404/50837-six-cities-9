@@ -8,8 +8,7 @@ function City({name, isActive, getName}: CityProps): JSX.Element {
 
   const getActivAndName = () => {
     getName(name);
-    //getActive(index);
-  };//onClick={getActivAndName}
+  };
 
   return (
     <li onClick={getActivAndName} className="locations__item">

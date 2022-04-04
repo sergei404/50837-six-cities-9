@@ -15,6 +15,7 @@ export type initialStateType = {
   comments: reviewsType[];
   nearby: offerType[];
   error: string;
+  favoriteOffers: offerType[];
 }
 
 const initialState: initialStateType = {
@@ -28,6 +29,7 @@ const initialState: initialStateType = {
   comments: [],
   nearby: [],
   error: '',
+  favoriteOffers: [],
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -57,6 +59,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loginAction, (state, action) => {
       state.authorizationStatus = action.payload;
+      if (state.authorizationStatus === AuthorizationStatus.Auth) {
+        state.favoriteOffers = state.dataOffers.filter((item) => item.isFavorite);
+      }
     })
     .addCase(offerAction, (state, {payload}): void => {
       state.offer = payload.dataOffer;
