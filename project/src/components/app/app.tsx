@@ -7,22 +7,20 @@ import Property from '../room/room';
 import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout';
-import { offerType } from '../../types/offerType';
 import Preloader from './../preloader/preloader';
+//import { useSelector } from 'react-redux';
+//import { initialStateType } from '../../store/reducer';
+//import { AuthorizationStatus } from '../../const';
+import browserHistory from '../../browser-history';
 import { useSelector } from 'react-redux';
 import { initialStateType } from '../../store/reducer';
-import { AuthorizationStatus } from '../../const';
-import browserHistory from '../../browser-history';
 
-type AppProps = {
-  offerList: offerType[]
-};
+function App(): JSX.Element {
+  //const {authorizationStatus, isLoading} = useSelector((state: initialStateType) => state);
+  const {isLoading} = useSelector((state: initialStateType) => state);
 
-function App(props: AppProps): JSX.Element {
-//function App(): JSX.Element {
-  const {authorizationStatus, isLoading} = useSelector((state: initialStateType) => state);
-
-  if (authorizationStatus === AuthorizationStatus.Unknown &&!isLoading) {
+  // if (authorizationStatus === AuthorizationStatus.NoAuth &&!isLoading) {
+  if (!isLoading) {
     return (
       <Preloader/>
     );

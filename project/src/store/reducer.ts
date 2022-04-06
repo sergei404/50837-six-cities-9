@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { filterOffersAction, getCityAction, loadOffersAction, loginAction, offerAction, reviewAction, setError } from './action';
+import { favoriteAction, favoritesAction, filterOffersAction, getCityAction, loadOffersAction, loginAction, offerAction, reviewAction, setError } from './action';
 import { AuthorizationStatus } from './../const';
 import { offerType, FilterOffers } from '../types/offerType';
 import { reviewsType } from '../types/reviewType';
@@ -24,7 +24,7 @@ const initialState: initialStateType = {
   cityList: [],
   isLoading: false,
   dataOffers: [],
-  authorizationStatus: AuthorizationStatus.Unknown,
+  authorizationStatus: AuthorizationStatus.NoAuth,
   offer: null,
   comments: [],
   nearby: [],
@@ -64,15 +64,28 @@ const reducer = createReducer(initialState, (builder) => {
       }
     })
     .addCase(offerAction, (state, {payload}): void => {
+      state.isLoading = false;
       state.offer = payload.dataOffer;
       state.comments = payload.dataComments;
       state.nearby = payload.dataNearby;
+      state.isLoading = true;
     })
     .addCase(setError, (state, action) => {
       state.error = action.payload;
     })
     .addCase(reviewAction, (state, action) => {
       state.comments.push(action.payload);
+    })
+    .addCase(favoriteAction, (state, {payload}) => {
+      state.offersOfCity = state.offersOfCity.map((offer) => (offer.id === payload.id ? {...offer, ...payload} : offer));
+      state.favoriteOffers = state.favoriteOffers.map((offer) => (offer.id === payload.id ? {...offer, ...payload} : offer));
+      state.nearby = state.nearby.map((offer) => (offer.id === payload.id ? {...offer, ...payload} : offer));
+      state.offer = {...state.offer, ...payload};
+    })
+    .addCase(favoritesAction, (state, action) => {
+      state.isLoading = false;
+      state.favoriteOffers = action.payload;
+      state.isLoading = true;
     });
 });
 

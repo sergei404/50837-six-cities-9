@@ -1,4 +1,4 @@
-import {FormEvent, SyntheticEvent, useState} from 'react';
+import { FormEvent, SyntheticEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addReviewAction } from '../../store/api-action';
 import { ReviewData } from '../../types/review-data';
@@ -43,6 +43,21 @@ function FeedbackForm({cityId}: FeedbackFormProps): JSX.Element {
       formData.review = '';
     }
   };
+
+  // useEffect(() => {
+  //   if (formData.rating !== '' && formData.review !== '') {
+  //     const {rating, review} = formData;
+  //     const reviewData: ReviewData = {
+  //       offerId: cityId,
+  //       reviewData: {rating, comment: review},
+  //     };
+
+  //     dispatch(addReviewAction(reviewData));
+
+  //     formData.rating = '';
+  //     formData.review = '';
+  //   }
+  // }, [cityId, dispatch, formData, formData.rating, formData.review]);
 
   return (
     <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>

@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 type CityProps = {
   name: string
   isActive: boolean,
@@ -12,9 +14,9 @@ function City({name, isActive, getName}: CityProps): JSX.Element {
 
   return (
     <li onClick={getActivAndName} className="locations__item">
-      <a className={`locations__item-link tabs__item ${isActive ? 'tabs__item--active' : ''}`} href="#s">
+      <Link className={`locations__item-link tabs__item ${isActive ? 'tabs__item--active' : ''}`} to={'/'}>
         <span>{name}</span>
-      </a>
+      </Link>
     </li>
   );
 }

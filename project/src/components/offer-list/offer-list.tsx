@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+//import { useLocation } from 'react-router-dom';
 import {offerType} from '../../types/offerType';
+//import FavoriteItem from '../favorite-item/favorite-item';
 import OfferItem from '../offer-item/offer-item';
 
 type OfferListProps = {

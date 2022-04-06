@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import {useRef, useEffect} from 'react';
 import useMap from '../../hooks/useMap';
 import leaflet from 'leaflet';
@@ -6,12 +7,13 @@ import {Location} from './../../types/offerType';
 
 
 type MapProps = {
-  coordinates: {location: Location, id: number}[];
+  coordinates: {location: Location, id: number, isSelected?: boolean}[];
   selectedPoint: number | null;
 };
 
 function Map({coordinates, selectedPoint}: MapProps): JSX.
 Element {
+
   const mapRef = useRef(null);
   const map = useMap(mapRef, coordinates[0]);
 
@@ -30,12 +32,14 @@ Element {
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });
-  const coords = coordinates.map(({location: {latitude: lat, longitude: lng}, id}) => {
+  const coords = coordinates.map(({location: {latitude: lat, longitude: lng}, id, isSelected}) => {
     const marker = new leaflet.Marker({lat, lng},
       {
-        icon: id === selectedPoint
-          ? currentCustomIcon
-          : defaultCustomIcon,
+        icon: id === selectedPoint ?
+          currentCustomIcon :
+          isSelected ?
+            currentCustomIcon :
+            defaultCustomIcon,
       });
     return marker;
   });
