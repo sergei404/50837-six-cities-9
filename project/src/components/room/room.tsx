@@ -1,22 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import FeedbackForm from '../feedback-form/feedback-form';
-import { useParams } from 'react-router-dom';
-//import { offerType } from '../../types/offerType';
+import { Navigate, useParams } from 'react-router-dom';
 import Map from '../map/map';
 import OfferList from '../offer-list/offer-list';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-//import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { initialStateType } from '../../store/reducer';
-import { offerFetchAction } from '../../store/api-action';
+import { addFavoriteAction, offerFetchAction } from '../../store/api-action';
 import { AuthorizationStatus } from '../../const';
 import ListReview from '../list-review/list-review';
-import { store } from '../../store';
 
-// type RoomProps = {
-//   offerList: offerType[]
-// };
-
-//function Room({ offerList }: RoomProps): JSX.Element {
 function Room(): JSX.Element {
   const [selectedPoint, setSelectedPoint] = useState<number | null>(null);
 
@@ -26,54 +19,51 @@ function Room(): JSX.Element {
 
   const { id } = useParams();
   const numberId = Number(id);
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  const authorizationStatus = useSelector((state: initialStateType) => state.authorizationStatus);
   const offer = useSelector((state: initialStateType) => state.offer);
+  const authorizationStatus = useSelector((state: initialStateType) => state.authorizationStatus);
+  const nearby = useSelector((state: initialStateType) => state.nearby);
   const comments = useSelector((state: initialStateType) => state.comments);
 
-  //const offersListOfRoom = useSelector((state: initialStateType) => state.nearby);
-
   useEffect(() => {
-    store.dispatch(offerFetchAction(numberId));
-    //dispatch(offerFetchAction(Number(id)));
-  }, [numberId]);
-  //}, [store, id]);
+    dispatch(offerFetchAction(Number(id)));
+  }, [dispatch, id, comments.length]);
 
-  const offersListOfRoom = useSelector((state: initialStateType) => state.offersOfCity).slice(0, 3);
+  function getFavoriteOrNotFavorite() {
+    if (authorizationStatus === AuthorizationStatus.NoAuth) {
+      <Navigate to={'/login'}/>;
+    }
+    const favorite = offer?.isFavorite ? 0 : 1;
 
+    dispatch(addFavoriteAction({
+      offerId: numberId,
+      status: favorite,
+    }));
+  }
 
-  const coordinates = offersListOfRoom.map((item) => ({
-    location: item.location,
-    id: item.id,
-  }));
+  const  coordinates = offer ?
+    [...nearby.map((item) => ({
+      location: item.location,
+      id: item.id,
+    })), {location: offer.location, id: offer.id, isSelected: true} ] :
+    nearby.map((item) => ({
+      location: item.location,
+      id: item.id,
+    }));
+
 
   return (
     <main className="page__main page__main--property">
       <section className="property">
         <div className="property__gallery-container container">
           <div className="property__gallery">
-            {offer?.images.map((image) => (
+            {offer?.images.slice(0, 6).map((image) => (
               <div key={image} className="property__image-wrapper">
                 <img className="property__image" src={image} alt="Photo_studio" />
               </div>
             ))}
 
-            {/* <div className="property__image-wrapper">
-              <img className="property__image" src="img/apartment-01.jpg" alt="Photo_studio" />
-            </div>
-            <div className="property__image-wrapper">
-              <img className="property__image" src="img/apartment-02.jpg" alt="Photo_studio" />
-            </div>
-            <div className="property__image-wrapper">
-              <img className="property__image" src="img/apartment-03.jpg" alt="Photo_studio" />
-            </div>
-            <div className="property__image-wrapper">
-              <img className="property__image" src="img/studio-01.jpg" alt="Photo_studio" />
-            </div>
-            <div className="property__image-wrapper">
-              <img className="property__image" src="img/apartment-01.jpg" alt="Photo_studio" />
-            </div> */}
           </div>
         </div>
         <div className="property__container container">
@@ -89,25 +79,12 @@ function Room(): JSX.Element {
               <h1 className="property__name">
                 {offer?.title}
               </h1>
-              {offer?.isFavorite ?
-                <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
-                  <svg className="place-card__bookmark-icon" width="18" height="19">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">In bookmarks</span>
-                </button> :
-                <button className="place-card__bookmark-button button" type="button">
-                  <svg className="place-card__bookmark-icon" width="18" height="19">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>}
-              {/* <button className="property__bookmark-button button" type="button">
-                <svg className="property__bookmark-icon" width="31" height="33">
+              <button onClick={getFavoriteOrNotFavorite} className={`place-card__bookmark-button button ${offer?.isFavorite ? 'place-card__bookmark-button--active' : ''}`} type="button">
+                <svg className="place-card__bookmark-icon" width="18" height="19">
                   <use xlinkHref="#icon-bookmark"></use>
                 </svg>
-                <span className="visually-hidden">To bookmarks</span>
-              </button> */}
+                {offer?.isFavorite ? <span className="visually-hidden">In bookmarks</span> : <span className="visually-hidden">To bookmarks</span>}
+              </button>
             </div>
             <div className="property__rating rating">
               <div className="property__stars rating__stars">
@@ -139,36 +116,6 @@ function Room(): JSX.Element {
                     {good}
                   </li>
                 ))}
-                {/* <li className="property__inside-item">
-                  Wi-Fi
-                </li>
-                <li className="property__inside-item">
-                  Washing machine
-                </li>
-                <li className="property__inside-item">
-                  Towels
-                </li>
-                <li className="property__inside-item">
-                  Heating
-                </li>
-                <li className="property__inside-item">
-                  Coffee machine
-                </li>
-                <li className="property__inside-item">
-                  Baby seat
-                </li>
-                <li className="property__inside-item">
-                  Kitchen
-                </li>
-                <li className="property__inside-item">
-                  Dishwasher
-                </li>
-                <li className="property__inside-item">
-                  Cabel TV
-                </li>
-                <li className="property__inside-item">
-                  Fridge
-                </li> */}
               </ul>
             </div>
             <div className="property__host">
@@ -186,16 +133,10 @@ function Room(): JSX.Element {
                   </span> : ''}
               </div>
               <div className="property__description">
-                {/* <p className="property__text">
-                  A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                </p>
-                <p className="property__text">
-                  An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
-                </p> */}
+                {offer?.description}
               </div>
             </div>
             <section className="property__reviews reviews">
-              {/* <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{review?.reviews.length}</span></h2> */}
               <h2 className="reviews__title">Reviews &middot;
                 <span className="reviews__amount"> {comments.length}
                 </span>
@@ -207,12 +148,12 @@ function Room(): JSX.Element {
             </section>
           </div>
         </div>
-        <Map coordinates={coordinates} selectedPoint={selectedPoint} />
+        {nearby.length && <Map coordinates={coordinates} selectedPoint={selectedPoint} />}
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <OfferList onListItemHover={onListItemHover} offerList={offersListOfRoom} isRoom={false} />
+          {nearby.length && <OfferList onListItemHover={onListItemHover} offerList={nearby} isRoom={false} />}
         </section>
       </div>
     </main>

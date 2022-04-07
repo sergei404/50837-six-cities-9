@@ -1,7 +1,7 @@
 export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
-  Unknown = 'UNKNOWN',
+  //Unknown = 'UNKNOWN',
 }
 
 export enum HTTP_CODE {

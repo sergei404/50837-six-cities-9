@@ -2,11 +2,12 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import browserHistory from '../browser-history';
 import { AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
 import { errorHandle } from '../services/error-handle';
-import { saveToken } from '../services/token';
+import { dropToken, saveToken } from '../services/token';
 import {store, api} from '../store';
 import { AuthData } from '../types/auth-data';
-//import { ReviewData } from '../types/review-data';
-import { loadOffersAction, loginAction, offerAction, reviewAction, setError } from './action';
+import { FavoriteActionType } from '../types/favorite-action-type';
+import { ReviewData } from '../types/review-data';
+import { favoriteAction, favoritesAction, loadOffersAction, loginAction, offerAction, reviewAction, setError } from './action';
 
 export const loadFetchOffersAction = createAsyncThunk(
   'loadFetchOffers',
@@ -76,13 +77,53 @@ export const clearErrorAction = createAsyncThunk(
 
 export const addReviewAction = createAsyncThunk(
   'review',
-  async (offerId, reviewData) => {
+  async ({offerId, reviewData}: ReviewData) => {
     try {
       const {data} = await api.post(`/comments/${offerId}`, {...reviewData});
       store.dispatch(reviewAction(data));
     } catch (error) {
       errorHandle(error);
-      // store.dispatch(loginAction(AuthorizationStatus.NoAuth));
+      store.dispatch(loginAction(AuthorizationStatus.NoAuth));
+    }
+  },
+);
+
+export const addFavoriteAction = createAsyncThunk(
+  'addFavorite',
+  async ({offerId, status} : FavoriteActionType) => {
+    try {
+      const {data} = await api.post(`/favorite/${offerId}/${status}`);
+      store.dispatch(favoriteAction(data));
+    } catch (error) {
+      errorHandle(error);
+      store.dispatch(loginAction(AuthorizationStatus.NoAuth));
+      browserHistory.push('/login');
+    }
+  },
+);
+
+export const addFavoritesAction = createAsyncThunk(
+  'addFavorites',
+  async () => {
+    try {
+      const {data} = await api.get('/favorite');
+      store.dispatch(favoritesAction(data));
+    } catch (error) {
+      errorHandle(error);
+      store.dispatch(loginAction(AuthorizationStatus.NoAuth));
+    }
+  },
+);
+
+export const logoutAction = createAsyncThunk(
+  'logout',
+  async () => {
+    try {
+      await api.delete('/logout');
+      dropToken();
+      store.dispatch(loginAction(AuthorizationStatus.NoAuth));
+    } catch (error) {
+      errorHandle(error);
     }
   },
 );

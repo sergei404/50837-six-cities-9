@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
 import { Provider } from 'react-redux';
-import { offers } from './mocks/offers';
 import { store } from './store';
 import { checkAuthAction, loadFetchOffersAction } from './store/api-action';
 import ErrorMessage from './components/error-message/error-message';
@@ -14,7 +13,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <ErrorMessage/>
-      <App offerList={offers}/>
+      <App/>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'));

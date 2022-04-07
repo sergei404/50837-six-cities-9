@@ -1,12 +1,22 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { AuthorizationStatus } from '../../const';
+import { addFavoritesAction, logoutAction } from '../../store/api-action';
 import { initialStateType } from '../../store/reducer';
 
 function Layout(): JSX.Element {
   const authorizationStatus = useSelector((state: initialStateType) => state.authorizationStatus);
   const { pathname } = useLocation();
   const isShowFooter = pathname === '/favorites';
+  const dispatch = useDispatch();
+
+  function showFavoriteOffers() {
+    dispatch(addFavoritesAction());
+  }
+
+  function logout() {
+    dispatch(logoutAction());
+  }
 
   return (
     <>
@@ -22,16 +32,16 @@ function Layout(): JSX.Element {
               {authorizationStatus === AuthorizationStatus.Auth ?
                 <ul className="header__nav-list">
                   <li className="header__nav-item user">
-                    <a className="header__nav-link header__nav-link--profile" href="#s">
+                    <Link className="header__nav-link header__nav-link--profile" to={'/favorites'}>
                       <div className="header__avatar-wrapper user__avatar-wrapper">
                       </div>
-                      <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    </a>
+                      <span onClick={showFavoriteOffers} className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                    </Link>
                   </li>
                   <li className="header__nav-item">
-                    <a className="header__nav-link" href="#s">
+                    <Link onClick={logout} className="header__nav-link" to={''}>
                       <span className="header__signout">Sign out</span>
-                    </a>
+                    </Link>
                   </li>
                 </ul>:
                 <ul className="header__nav-list">
@@ -50,9 +60,9 @@ function Layout(): JSX.Element {
       <Outlet />
       {isShowFooter ?
         <footer className="footer container">
-          <a className="footer__logo-link" href="main.html">
+          <Link className="footer__logo-link" to={'/'}>
             <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
-          </a>
+          </Link>
         </footer> :
         null}
     </>
