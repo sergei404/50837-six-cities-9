@@ -6,9 +6,10 @@ type ListReviewProps = {
 };
 
 function ListReview({reviews} : ListReviewProps): JSX.Element {
+
   return (
     <ul className="reviews__list">
-      {reviews?.map((review) => <Review key={review.id} {...review}/>)}
+      {reviews?.slice(0, 10).slice(0, 10).sort((prev, next) => new Date(next.date).getTime() - new Date(prev.date).getTime()).map((review) => <Review key={review.id} {...review}/>)}
     </ul>
   );
 }

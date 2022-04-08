@@ -1,7 +1,6 @@
 export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
-  //Unknown = 'UNKNOWN',
 }
 
 export enum HTTP_CODE {
@@ -10,4 +9,4 @@ export enum HTTP_CODE {
   NOT_FOUND = 404,
 }
 
-export const TIMEOUT_SHOW_ERROR = 12000;
+export const TIMEOUT_SHOW_ERROR = 2000;

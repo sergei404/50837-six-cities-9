@@ -1,6 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import FeedbackForm from '../feedback-form/feedback-form';
-import { Navigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Map from '../map/map';
 import OfferList from '../offer-list/offer-list';
 import { useEffect, useState } from 'react';
@@ -9,6 +8,7 @@ import { initialStateType } from '../../store/reducer';
 import { addFavoriteAction, offerFetchAction } from '../../store/api-action';
 import { AuthorizationStatus } from '../../const';
 import ListReview from '../list-review/list-review';
+import FavoriteButton from '../favorite-button/favorite-button';
 
 function Room(): JSX.Element {
   const [selectedPoint, setSelectedPoint] = useState<number | null>(null);
@@ -31,9 +31,6 @@ function Room(): JSX.Element {
   }, [dispatch, id, comments.length]);
 
   function getFavoriteOrNotFavorite() {
-    if (authorizationStatus === AuthorizationStatus.NoAuth) {
-      <Navigate to={'/login'}/>;
-    }
     const favorite = offer?.isFavorite ? 0 : 1;
 
     dispatch(addFavoriteAction({
@@ -79,12 +76,7 @@ function Room(): JSX.Element {
               <h1 className="property__name">
                 {offer?.title}
               </h1>
-              <button onClick={getFavoriteOrNotFavorite} className={`place-card__bookmark-button button ${offer?.isFavorite ? 'place-card__bookmark-button--active' : ''}`} type="button">
-                <svg className="place-card__bookmark-icon" width="18" height="19">
-                  <use xlinkHref="#icon-bookmark"></use>
-                </svg>
-                {offer?.isFavorite ? <span className="visually-hidden">In bookmarks</span> : <span className="visually-hidden">To bookmarks</span>}
-              </button>
+              {offer && <FavoriteButton isFavorite={offer.isFavorite} getFavoriteOrNotFavorite={getFavoriteOrNotFavorite}/>}
             </div>
             <div className="property__rating rating">
               <div className="property__stars rating__stars">

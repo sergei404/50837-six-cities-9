@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import {useRef, useEffect} from 'react';
 import useMap from '../../hooks/useMap';
 import leaflet from 'leaflet';
@@ -35,6 +34,7 @@ Element {
   const coords = coordinates.map(({location: {latitude: lat, longitude: lng}, id, isSelected}) => {
     const marker = new leaflet.Marker({lat, lng},
       {
+        // eslint-disable-next-line no-nested-ternary
         icon: id === selectedPoint ?
           currentCustomIcon :
           isSelected ?
