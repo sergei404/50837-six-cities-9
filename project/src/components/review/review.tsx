@@ -27,7 +27,7 @@ function Review(props: reviewsType): JSX.Element {
           {props.comment}
         </p>
         <time className="reviews__time" dateTime={props.date}>
-          {props.date}
+          {`${new Date(props.date).toLocaleString('en', {month: 'long'})} ${new Date(props.date).getFullYear()}`}
         </time>
       </div>
     </li>

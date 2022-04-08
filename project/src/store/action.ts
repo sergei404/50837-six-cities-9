@@ -17,6 +17,6 @@ export const offerAction = createAction('offer', ({dataOffer, dataComments, data
 }}));
 export const setError = createAction<string>('setError');
 
-export const reviewAction = createAction<reviewsType>('review');
+export const reviewAction = createAction<[] | reviewsType[]>('review');
 export const favoriteAction = createAction<offerType>('favorite');
 export const favoritesAction = createAction<[] | offerType[]>('favorites');

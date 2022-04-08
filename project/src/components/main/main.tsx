@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 import { useSelector, useDispatch } from 'react-redux';
 import City from '../city/city';
 import OfferList from '../offer-list/offer-list';
@@ -7,6 +6,7 @@ import Map from '../map/map';
 import {filterOffersAction, getCityAction} from '../../store/action';
 import { initialStateType } from '../../store/reducer';
 import SortOptions from '../sort-options/sort-options';
+import MainEmpty from '../main-empty/main.empty';
 
 function Main(): JSX.Element {
   const cityName = useSelector((state: initialStateType) => state.city);
@@ -33,6 +33,10 @@ function Main(): JSX.Element {
   const getFilter = (filter: string) => {
     dispatch(filterOffersAction(filter));
   };
+
+  if (!offersOfCity.length) {
+    return <MainEmpty/>;
+  }
 
   return (
     <main className="page__main page__main--index">

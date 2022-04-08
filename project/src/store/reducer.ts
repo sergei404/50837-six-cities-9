@@ -74,7 +74,7 @@ const reducer = createReducer(initialState, (builder) => {
       state.error = action.payload;
     })
     .addCase(reviewAction, (state, action) => {
-      state.comments.push(action.payload);
+      state.comments = action.payload;
     })
     .addCase(favoriteAction, (state, {payload}) => {
       state.offersOfCity = state.offersOfCity.map((offer) => (offer.id === payload.id ? {...offer, ...payload} : offer));
