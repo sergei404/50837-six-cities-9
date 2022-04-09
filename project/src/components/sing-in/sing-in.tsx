@@ -1,26 +1,38 @@
 import {useRef, FormEvent} from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { authorizationAction } from '../../store/api-action';
 import { AuthData } from '../../types/auth-data';
+import { Link } from 'react-router-dom';
+import { initialStateType } from '../../store/reducer';
+import { getCityAction } from '../../store/action';
 
 function SingIn(): JSX.Element {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const dispatch =  useDispatch();
   const passwordRef = useRef<HTMLInputElement | null>(null);
+  const cities = useSelector((state: initialStateType) => state.cityList);
+
+  const city = cities[Math.floor(Math.random() * cities.length)];
+  const handleCity = () => {
+    dispatch(getCityAction(city));
+  };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (emailRef.current !== null && passwordRef.current !== null) {
+    const pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{2,}$/ig;
+
+    if (emailRef.current !== null && passwordRef.current !== null && passwordRef.current.value.replace(/ /, '').match(pattern)) {
+
       const authData: AuthData = {
         email: emailRef.current.value,
         password: passwordRef.current.value,
       };
-
       dispatch(authorizationAction(authData));
 
       emailRef.current.value = '';
       passwordRef.current.value = '';
+
     }
   };
 
@@ -43,9 +55,9 @@ function SingIn(): JSX.Element {
         </section>
         <section className="locations locations--login locations--current">
           <div className="locations__item">
-            <a className="locations__item-link" href="#sd">
-              <span>Amsterdam</span>
-            </a>
+            <Link onClick={handleCity} className="locations__item-link" to={'/'}>
+              <span>{city}</span>
+            </Link>
           </div>
         </section>
       </div>

@@ -1,22 +1,13 @@
 import { useSelector } from 'react-redux';
 import { initialStateType } from '../../store/reducer';
+import './error-message.css';
 
 function ErrorMessage(): JSX.Element | null {
   const error = useSelector((state: initialStateType) => state.error);
 
   if (error) {
     return (
-      <div
-        style={{
-          position: 'fixed',
-          top: '30px',
-          right: '30px',
-          padding: '10px',
-          backgroundColor: '#d96666',
-          color: 'white',
-          borderRadius: '5px',
-        }}
-      >
+      <div className='error'>
         {error}
       </div>
     );

@@ -23,14 +23,14 @@ function Room(): JSX.Element {
 
   const offer = useSelector((state: initialStateType) => state.offer);
   const authorizationStatus = useSelector((state: initialStateType) => state.authorizationStatus);
-  const nearby = useSelector((state: initialStateType) => state.nearby);
+  const nearbies = useSelector((state: initialStateType) => state.nearbies);
   const comments = useSelector((state: initialStateType) => state.comments);
 
   useEffect(() => {
     dispatch(offerFetchAction(Number(id)));
   }, [dispatch, id, comments.length]);
 
-  function getFavoriteOrNotFavorite() {
+  function handleFavoriteOrNotFavorite() {
     const favorite = offer?.isFavorite ? 0 : 1;
 
     dispatch(addFavoriteAction({
@@ -40,11 +40,11 @@ function Room(): JSX.Element {
   }
 
   const  coordinates = offer ?
-    [...nearby.map((item) => ({
+    [...nearbies.map((item) => ({
       location: item.location,
       id: item.id,
     })), {location: offer.location, id: offer.id, isSelected: true} ] :
-    nearby.map((item) => ({
+    nearbies.map((item) => ({
       location: item.location,
       id: item.id,
     }));
@@ -76,7 +76,7 @@ function Room(): JSX.Element {
               <h1 className="property__name">
                 {offer?.title}
               </h1>
-              {offer && <FavoriteButton isFavorite={offer.isFavorite} getFavoriteOrNotFavorite={getFavoriteOrNotFavorite}/>}
+              {offer && <FavoriteButton isFavorite={offer.isFavorite} handleFavoriteOrNotFavorite={handleFavoriteOrNotFavorite}/>}
             </div>
             <div className="property__rating rating">
               <div className="property__stars rating__stars">
@@ -140,12 +140,12 @@ function Room(): JSX.Element {
             </section>
           </div>
         </div>
-        {nearby.length && <Map coordinates={coordinates} selectedPoint={selectedPoint} />}
+        {nearbies.length && <Map coordinates={coordinates} selectedPoint={selectedPoint} />}
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          {nearby.length && <OfferList onListItemHover={onListItemHover} offerList={nearby} isRoom={false} />}
+          {nearbies.length && <OfferList onListItemHover={onListItemHover} offerList={nearbies} isRoom={false} />}
         </section>
       </div>
     </main>

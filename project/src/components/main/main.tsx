@@ -1,18 +1,20 @@
 import { useSelector, useDispatch } from 'react-redux';
 import City from '../city/city';
 import OfferList from '../offer-list/offer-list';
-import { useState } from 'react';
+import { useState} from 'react';
 import Map from '../map/map';
-import {filterOffersAction, getCityAction} from '../../store/action';
-import { initialStateType } from '../../store/reducer';
 import SortOptions from '../sort-options/sort-options';
-import MainEmpty from '../main-empty/main.empty';
+import MainEmpty from '../main-empty/main-empty';
+import { initialStateType } from '../../store/reducer';
+import { filterOffersAction, getCityAction } from '../../store/action';
 
 function Main(): JSX.Element {
-  const cityName = useSelector((state: initialStateType) => state.city);
-  const offersOfCity = useSelector((state: initialStateType) => state.offersOfCity);
-  const cities = useSelector((state: initialStateType) => state.cityList);
 
+  const cityName = useSelector((state: initialStateType) => state.city);
+
+  const offersOfCity = useSelector((state: initialStateType) => state.offersOfCity);
+
+  const cities = useSelector((state: initialStateType) => state.cityList);
   const [selectedPoint, setSelectedPoint] = useState<number | null>(null);
 
   const onListItemHover = (listItemId: number | null) => {
