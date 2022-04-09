@@ -13,7 +13,7 @@ export type initialStateType = {
   authorizationStatus: string;
   offer: offerType | null;
   comments: reviewsType[];
-  nearby: offerType[];
+  nearbies: offerType[];
   error: string;
   favoriteOffers: offerType[];
 }
@@ -27,7 +27,7 @@ const initialState: initialStateType = {
   authorizationStatus: AuthorizationStatus.NoAuth,
   offer: null,
   comments: [],
-  nearby: [],
+  nearbies: [],
   error: '',
   favoriteOffers: [],
 };
@@ -66,8 +66,8 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(offerAction, (state, {payload}): void => {
       state.isLoading = false;
       state.offer = payload.dataOffer;
-      state.comments = payload.dataComments;
-      state.nearby = payload.dataNearby;
+      state.comments = payload.dataComments.sort((prev, next) => new Date(next.date).getTime() - new Date(prev.date).getTime());
+      state.nearbies = payload.dataNearby;
       state.isLoading = true;
     })
     .addCase(setError, (state, action) => {
@@ -79,7 +79,7 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(favoriteAction, (state, {payload}) => {
       state.offersOfCity = state.offersOfCity.map((offer) => (offer.id === payload.id ? {...offer, ...payload} : offer));
       state.favoriteOffers = state.favoriteOffers.map((offer) => (offer.id === payload.id ? {...offer, ...payload} : offer));
-      state.nearby = state.nearby.map((offer) => (offer.id === payload.id ? {...offer, ...payload} : offer));
+      state.nearbies = state.nearbies.map((offer) => (offer.id === payload.id ? {...offer, ...payload} : offer));
       state.offer = {...state.offer, ...payload};
     })
     .addCase(favoritesAction, (state, action) => {

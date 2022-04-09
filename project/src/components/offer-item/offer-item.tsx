@@ -22,7 +22,7 @@ function OfferItem({ onListItemHover, offer }: OfferItemProps): JSX.Element {
     ) :
     null;
 
-  function getFavoriteOrNotFavorite() {
+  function handleFavoriteOrNotFavorite() {
     const favorite = isFavorite ? 0 : 1;
 
     dispatch(addFavoriteAction({
@@ -60,7 +60,7 @@ function OfferItem({ onListItemHover, offer }: OfferItemProps): JSX.Element {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <FavoriteButton isFavorite={isFavorite} getFavoriteOrNotFavorite={getFavoriteOrNotFavorite}/>
+          <FavoriteButton isFavorite={isFavorite} handleFavoriteOrNotFavorite={handleFavoriteOrNotFavorite}/>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

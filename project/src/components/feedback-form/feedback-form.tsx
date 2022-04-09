@@ -1,7 +1,9 @@
 import { FormEvent, SyntheticEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { MIN_REVIEW_LENGTH, MAX_REVIEW_LENGTH } from '../../const';
 import { addReviewAction } from '../../store/api-action';
 import { ReviewData } from '../../types/review-data';
+
 
 type FeedbackFormProps = {
   cityId: number
@@ -28,7 +30,7 @@ function FeedbackForm({cityId}: FeedbackFormProps): JSX.Element {
     setFormData({ ...formData, [name]: value });
   }
 
-  const reviewAndRating = Boolean(formData.rating !== '' && (formData.review.length >= 50 && formData.review.length <= 300));
+  const reviewAndRating = Boolean(formData.rating !== '' && (formData.review.length >= MIN_REVIEW_LENGTH  && formData.review.length <= MAX_REVIEW_LENGTH));
 
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {

@@ -6,7 +6,7 @@ import OfferList from '../offer-list/offer-list';
 function Favorites(): JSX.Element {
   const offers = useSelector((state: initialStateType) => state.favoriteOffers.filter((offer) => offer.isFavorite));
 
-  const cityOfFavorite = [...new Set(offers.map((item) => item.city.name))];
+  const cities = [...new Set(offers.map((item) => item.city.name))];
 
   return (
     <main className="page__main page__main--favorites">
@@ -16,7 +16,7 @@ function Favorites(): JSX.Element {
             <h1 className="favorites__title">Saved listing</h1> :
             <h1 className="favorites__title">Nothing yet saved</h1>}
           <ul className="favorites__list">
-            {cityOfFavorite.map((city) => (
+            {cities.map((city) => (
               <li key={city} className="favorites__locations-items">
                 <div className="favorites__locations locations locations--current">
                   <div className="locations__item">

@@ -10,11 +10,11 @@ function Layout(): JSX.Element {
   const isShowFooter = pathname === '/favorites';
   const dispatch = useDispatch();
 
-  function showFavoriteOffers() {
+  function handleFavoriteOffers() {
     dispatch(addFavoritesAction());
   }
 
-  function logout() {
+  function handleLogout() {
     dispatch(logoutAction());
   }
 
@@ -35,11 +35,11 @@ function Layout(): JSX.Element {
                     <Link className="header__nav-link header__nav-link--profile" to={'/favorites'}>
                       <div className="header__avatar-wrapper user__avatar-wrapper">
                       </div>
-                      <span onClick={showFavoriteOffers} className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                      <span onClick={handleFavoriteOffers} className="header__user-name user__name">Oliver.conner@gmail.com</span>
                     </Link>
                   </li>
                   <li className="header__nav-item">
-                    <Link onClick={logout} className="header__nav-link" to={''}>
+                    <Link onClick={handleLogout} className="header__nav-link" to={''}>
                       <span className="header__signout">Sign out</span>
                     </Link>
                   </li>

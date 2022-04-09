@@ -10,3 +10,24 @@ export enum HTTP_CODE {
 }
 
 export const TIMEOUT_SHOW_ERROR = 2000;
+export const MIN_REVIEW_LENGTH = 50;
+export const MAX_REVIEW_LENGTH = 300;
+export const REVIEW_COUNT = 10;
+
+export enum AppRoute {
+  Login = '/login',
+  Favorites = '/favorites',
+  Offer = '/offer/:id',
+  Root = '/',
+  Others = '*'
+}
+
+export enum APIRoute {
+  Hotels = '/hotels',
+  Login = '/login',
+  Logout = '/logout',
+  Comments = '/comments',
+  Nearby = '/nearby',
+  Favorite = '/favorite'
+}
+

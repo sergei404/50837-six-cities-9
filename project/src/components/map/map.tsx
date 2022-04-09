@@ -3,6 +3,7 @@ import useMap from '../../hooks/useMap';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {Location} from './../../types/offerType';
+import './map.css';
 
 
 type MapProps = {
@@ -34,12 +35,9 @@ Element {
   const coords = coordinates.map(({location: {latitude: lat, longitude: lng}, id, isSelected}) => {
     const marker = new leaflet.Marker({lat, lng},
       {
-        // eslint-disable-next-line no-nested-ternary
-        icon: id === selectedPoint ?
+        icon: id === selectedPoint || isSelected ?
           currentCustomIcon :
-          isSelected ?
-            currentCustomIcon :
-            defaultCustomIcon,
+          defaultCustomIcon,
       });
     return marker;
   });
@@ -58,7 +56,7 @@ Element {
   }, [map, coords, coordinates]);
 
   return (
-    <section style={{height: '100vh'}} ref={mapRef} className="cities__map map"></section>
+    <section ref={mapRef} className="cities__map map"></section>
   );
 }
 
